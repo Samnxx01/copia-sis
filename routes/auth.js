@@ -24,4 +24,10 @@ router.post('/login/usuario',[
     validarCampos
 ], loginController.guardar)
 
+
+router.post('/google',[
+    check('id_token','id_token es obligatorio').not().isEmpty(),
+    validarCampos
+], loginController.googleSingIn)
+
 export default router

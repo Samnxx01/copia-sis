@@ -119,14 +119,20 @@ var login = {
     },
 
 
+    googleSingIn: async (req, res = response) => {
+
+        const {id_token} = req.body
 
 
-    modificar: async (req,res) => {
+        res.status(200).json({
+            msg: 'reciibido',
+            id_token
+        })
 
-}
+        }
+        
+    }
 
-
-};
 
 
 
