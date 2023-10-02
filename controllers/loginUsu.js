@@ -2,6 +2,7 @@ import { response } from 'express';
 import registros from '../models/regiUsu.js';
 import bcryptjs from 'bcryptjs'
 import { generarJWT } from '../helpers/generar-jwt.js';
+import googleVerify from '../helpers/google-verfity.js'
 
 var login = {
 
@@ -53,7 +54,8 @@ var login = {
 
             res.status(200).json({
                 verificar,
-                token
+                token,
+   
 
             })
             
@@ -97,12 +99,19 @@ var login = {
                 msg: 'no se encontro un registro'
             })
 
+            if (auten.rol !== 'ADMINISTRADOR_ROLE') {
+                return res.status(400).json({
+                    msg: 'No tienes permisos de administrador'
+                });
+            }
+
             //generar el JWT
             const token = await generarJWT(auten.id)
 
             res.status(200).json({
                 auten,
                 token
+                
 
             })
             
@@ -121,18 +130,109 @@ var login = {
 
     googleSingIn: async (req, res = response) => {
 
-        const {id_token} = req.body
+        const { id_token } = req.body;
 
+        try {
+            // Verificar el token de Google y obtener la información del usuario
+            const {nickname, correo, img} = await googleVerify(id_token);
+         
+            // Comprobar si el usuario ya existe en la base de datos
+            let usuarioExistente = await registros.findOne({ correo });
+    
+            if (!usuarioExistente) {
+                
+                // Si el usuario no existe, crear un nuevo registro en la base de datos
+                const guardarApi = new registros({
+                    nickname,
+                    correo,
+                    img,
+                    password: '242',
+                    google: true,
+                    rol: 'USUARIO'
+                    
+                    // Otras propiedades que desees guardar en el usuario
+                });
+            
+    
+                // Guardar el nuevo usuario en la base de datos
+                await guardarApi.save();
+
+                if (!guardarApi.estado) {
+                    return res.status(401).json({
+                        msg: 'Hable con el administrador, usuario bloqueado'
+                    })
+                    
+                }
+    
+                // Generar un JWT para el nuevo usuario
+                const token = await generarJWT(guardarApi.id);
+                
+                res.json({
+                    msg: 'Inicio de sesión exitoso',
+                    nickname: guardarApi,
+                    token,
+                });
+            } 
+        } catch (error) {
+            console.error(error);
+            res.status(400).json({
+                ok: false,
+                msg: 'No se pudo iniciar sesión',
+            });
+        }
+    },
+
+    eliminar: async (req,res) => {
+        
+        const {id} = req.params;
+        
+
+        //fisicamnente lo borramos del modelo
+         /*const eliminarUsuario = await Regis.findByIdAndDelete(id);*/
+
+         const estadoss = await registros.findByIdAndUpdate( id, {estado:false});         
 
         res.status(200).json({
-            msg: 'reciibido',
-            id_token
+            msg: 'se ha desactivo el usuario',
+            estadoss
+            
         })
+    },
+    modificar: async (req,res) => {
 
+        try {
+            const { id} = req.params;
+            const { _id, password, google, ...resto } = req.body;
+    
+            // Valida si la contraseña se proporciona y encripta
+            if (password) {
+                const salt = bcryptjs.genSaltSync(10);
+                resto.password = bcryptjs.hashSync(password.toString(), salt);
+            }
+    
+            // Verifica si el registro con el ID proporcionado existe antes de actualizar
+            const registroExistente = await registros.findById(id);
+
+
+            if (!registroExistente) {
+                return res.status(404).json({ msg: 'Registro no encontrado' });
+            }
+    
+            // Realiza la actualización del registro
+            const modi = await registros.findByIdAndUpdate(id, resto, { new: true }); // Usa { new: true } para obtener el registro actualizado
+    
+            res.json({
+                msg: 'Registro actualizado',
+                modi
+            });
+            
+        } catch (error) {
+            console.error('Error al modificar registro:', error);
+            res.status(500).json({ msg: 'Error interno del servidor' });
         }
-        
-    }
+}, 
 
+};
 
 
 

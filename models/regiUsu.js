@@ -7,7 +7,7 @@ const RegisUsuSchema = new Schema({
 
     nickname: {
         type: String,
-        required: [true, 'El nickname es obligatorio']
+        required: [true, 'El nombre es obligatorio']
     },
     correo: {
         type: String,
