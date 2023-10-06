@@ -77,8 +77,8 @@ router.delete('/eliminar/:id',[
     validarJWT,
     //esTenerRoles('USUARIO','ADMINISTRADOR_ROLE'),
     esAdminRole,
-check('id', 'No es un ID valido').isMongoId(),
-check('id', ).custom( existeIdUsuario),
+    check('id', 'No es un ID valido').isMongoId(),
+    check('id', ).custom( existeIdUsuario),
     validarCampos
 ],registro.eliminar)
 

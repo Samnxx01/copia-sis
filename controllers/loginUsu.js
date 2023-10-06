@@ -49,6 +49,10 @@ var login = {
                 msg: 'no se encontro un registro'
             })
 
+            // Actualizar el campo tiemposesion con la fecha actual
+                verificar.tiempoSesion = new Date();
+                await verificar.save();
+
             //generar el JWT
             const token = await generarJWT(verificar.id)
 
@@ -105,6 +109,22 @@ var login = {
                 });
             }
 
+
+
+            auten.tiempoSesion = new Date();
+            await auten.save();
+
+            /*const tiempoActual = new Date();
+            const tiempoSesion = tiempoActual - auten.tiempoSesion;
+
+            if (tiempoSesion < tiempoMinimoSesion) {
+                // Si la sesión ha estado abierta durante menos tiempo del mínimo requerido, puedes responder en consecuencia.
+                return res.status(401).json({
+                  msg: `La sesión debe mantenerse abierta al menos ${tiempoMinimoSesion / 60000} minutos.`
+                });
+              }*/
+              
+
             //generar el JWT
             const token = await generarJWT(auten.id)
 
@@ -115,7 +135,10 @@ var login = {
 
             })
             
+            
         } catch (error) {
+
+            
             console.log(error)
             res.status(500).json({
                 msg: 'Error en el servidor'

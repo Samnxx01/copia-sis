@@ -16,14 +16,14 @@ var router = express.Router()
 router.get('/login/listar', loginController.listar )
 
 router.post('/login/admin',[
-    validarJWT,
+    
     check('correo','el correo es obligatorio').isEmail(),
     check('password','La contraseña es obligatoria').not().isEmpty(),
     validarCampos
 ], loginController.guardarAdmin) 
 
 router.post('/login/usuario',[
-    validarJWT,
+    
     check('correo','el correo es obligatorio').isEmail(),
     check('password','La contraseña es obligatoria').not().isEmpty(),
     validarCampos
@@ -49,8 +49,8 @@ router.delete('/login/eliminar/:id',[
     validarJWT,
     //esTenerRoles('USUARIO','ADMINISTRADOR_ROLE'),
     esAdminRole,
-check('id', 'No es un ID valido').isMongoId(),
-check('id', ).custom( existeIdUsuario),
+    check('id', 'No es un ID valido').isMongoId(),
+    check('id', ).custom( existeIdUsuario),
     validarCampos
 ],loginController.eliminar)
 

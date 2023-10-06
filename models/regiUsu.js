@@ -7,7 +7,7 @@ const RegisUsuSchema = new Schema({
 
     nickname: {
         type: String,
-        required: [true, 'El nombre es obligatorio']
+        required: [true, 'El nickname es obligatorio']
     },
     correo: {
         type: String,
@@ -25,6 +25,10 @@ const RegisUsuSchema = new Schema({
     estado: {
         type: Boolean,
         default: true
+    },
+    tiempoSesion: {
+        type: Date,
+        default: null
     },
     google: {
         type: Boolean,
