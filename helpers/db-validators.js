@@ -3,6 +3,7 @@ import Regis from '../models/regiUsu.js'
 import IdUsu from '../models/regiUsu.js'
 import Categoria   from '../models/categoria.js';
 import CategoriaAzucar   from '../models/categoriaAzucar.js';
+import productos from '../models/productos.js';
 
 
 export  async function esRoleValido(rol = '') {
@@ -40,6 +41,14 @@ export async function nombreExisteCate(nombre = '') {
         throw new Error(`El nombre  ya existe`);
     }
 }
+export async function nombreExisteProduc(nombre = '') {
+    const nombreExiste = await productos.findOne({ nombre });
+    if (nombreExiste) {
+        throw new Error(`El nombre  ya existe`);
+    }
+}
+
+
 
 
 
@@ -50,6 +59,12 @@ export async function existeIdUsuario(id) {
 }
 export async function existeIdCategoria(id) {
     const existeUsuario = await Categoria.findById(id);
+    // Si no se encuentra el usuario, simplemente retornamos false en lugar de lanzar un error
+    return !!existeUsuario;
+}
+
+export async function existeIdProduc(id) {
+    const existeUsuario = await productos.findById(id);
     // Si no se encuentra el usuario, simplemente retornamos false en lugar de lanzar un error
     return !!existeUsuario;
 }

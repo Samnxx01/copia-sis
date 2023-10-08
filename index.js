@@ -8,6 +8,7 @@ import bodyParser from 'body-parser'
 import router from './routes/apis.js'
 import login from './routes/auth.js'
 import categorias from './routes/categorias.js'
+import productos from './routes/productos.js'
 import dot from 'dotenv'
 //import db from './database/db.js'
 
@@ -34,6 +35,8 @@ app.use(bodyParser.json())
 app.use('/api', router)
 app.use('/api/auth', login)
 app.use('/api/categorias', categorias)
+app.use('/api/productos', productos)
+app.use('/api/buscar', productos)
 
 
 io.on('connection', (socket)=>{

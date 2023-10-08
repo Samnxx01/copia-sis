@@ -69,10 +69,12 @@ listarCategoriaID: async (req, res = response) => {
       const nombre = req.body.nombre.toUpperCase();
       const referencia = req.body.referencia.toUpperCase();
       const categoriaDB = await Categoria.findOne({nombre, referencia});
+      
+
 
       if (categoriaDB) {
         return res.status(400).json({
-          msg: `la categoria ${categoriaDB.referencia}. ya existe`
+          msg: `la categoria ${categoriaDB.referencia,categoriaDB.nombre}. ya existe`
         })
       }
       
@@ -98,7 +100,9 @@ listarCategoriaID: async (req, res = response) => {
     modificarCategoria: async (req, res = response) => {
       const {id} = req.params
       const {estado,regisUsu, ...data} = req.body;
-      data.nombre = data.nombre.toUpperCase();
+      if (data.nombre) {
+        data.nombre = data.nombre.toUpperCase();
+      }
       data.regisUsu = req.registrosUsu._id;
       const categoria = await Categoria.findByIdAndUpdate(id, data ,{new:true})
       .populate({
