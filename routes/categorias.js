@@ -5,7 +5,7 @@ import controllerCategorias from '../controllers/categoria.js'
 import {esAdminRole} from '../middlewares/validar-roles.js';
 import {existeIdCategoria} from '../helpers/db-validators.js';
 import {nombreExisteCate} from '../helpers/db-validators.js';
-import {azucarValido} from '../helpers/db-validators.js';
+//import {azucarValido} from '../helpers/db-validators.js';
 
 
 import validarJWT from '../middlewares/validar-jwt-seguridad.js';

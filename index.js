@@ -9,7 +9,10 @@ import router from './routes/apis.js'
 import login from './routes/auth.js'
 import categorias from './routes/categorias.js'
 import productos from './routes/productos.js'
+import buscar from './routes/buscar.js'
+import img from './routes/upload.js'
 import dot from 'dotenv'
+import fileUpload from 'express-fileupload'
 //import db from './database/db.js'
 
 //configuracion a mongoose
@@ -28,6 +31,10 @@ const io = new Socketserver(server,{
 })
 
 //conexion de middlewares
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp/'
+}));
 app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false}))
@@ -36,7 +43,9 @@ app.use('/api', router)
 app.use('/api/auth', login)
 app.use('/api/categorias', categorias)
 app.use('/api/productos', productos)
-app.use('/api/buscar', productos)
+app.use('/api/buscar', buscar)
+app.use('/api/img', img)
+
 
 
 io.on('connection', (socket)=>{

@@ -22,7 +22,7 @@ router.get('/messages',controller.getMessages)
 
 
  
-//usuarios
+//EL HEADER PARA EL FRONT -> METASPLOIT EL TOKEN EN EL POSTMAN
 
 //rutas de registro
 router.post('/guardarRegistro',[
