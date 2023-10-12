@@ -20,7 +20,7 @@ var categorias = {
      
       // Envía los registros como respuesta en formato JSON
       res.status(200).json({
-          msg: 'Listado registros',
+          msg: 'Listado Exitoso',
           total,
           registros,
          
@@ -52,7 +52,7 @@ listarCategoriaID: async (req, res = response) => {
             }
     
             res.status(200).json({
-                msg: 'Mostrando usuario por ID',
+                msg: ' Usuario por ID Exitoso',
                 verificarCa
             });
         } catch (error) {
@@ -92,7 +92,7 @@ listarCategoriaID: async (req, res = response) => {
 
       await categoria.save();
       res.status(201).json({
-        msg: 'categoria exitosa',
+        msg: 'Categoria Exitosa',
         categoria
       });
     },
@@ -111,7 +111,7 @@ listarCategoriaID: async (req, res = response) => {
     });
 
       res.status(200).json({
-        msg:'se ha modifcado',
+        msg:'Modificacion Exitosa',
         categoria
       })
     },
@@ -119,9 +119,9 @@ listarCategoriaID: async (req, res = response) => {
     eliminarCategoria: async (req, res = response) => {
       const {id} = req.params;
       const categoriaBorrada = await Categoria.findByIdAndUpdate( id,{estado: false}, {new: true})
+      console.log(categoriaBorrada)
       res.status(200).json({
         msg: "eliminado categoria",
-        categoriaBorrada
       })
     }
 

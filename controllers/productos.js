@@ -20,7 +20,7 @@ var productoss = {
      
       // Envía los registros como respuesta en formato JSON
       res.status(200).json({
-          msg: 'Listado registros',
+          msg: 'Listado Exitoso',
           total,
           registros,
          
@@ -50,7 +50,7 @@ listarProductoID: async (req, res = response) => {
             }
     
             res.status(200).json({
-                msg: 'Mostrando usuario por ID',
+                msg: 'Usuario por ID Exitoso',
                 verificarPro
             });
         } catch (error) {
@@ -88,10 +88,10 @@ listarProductoID: async (req, res = response) => {
 
 
       const producto = await new Productosss(data)
-
       await producto.save();
+      
       res.status(201).json({
-        msg: 'producto exitosa',
+        msg: 'Producto creado Exitoso',
         producto
       });
     },
@@ -110,7 +110,7 @@ listarProductoID: async (req, res = response) => {
       .populate('categoria', 'nombre');
 
       res.status(200).json({
-        msg:'se ha modifcado',
+        msg:'Modificacion Exitosa',
         productos
       })
     },
@@ -118,9 +118,9 @@ listarProductoID: async (req, res = response) => {
     eliminarProducto: async (req, res = response) => {
       const {id} = req.params;
       const productosBorrada = await Productosss.findByIdAndUpdate( id,{estado: false, disponible:false},{new: true})
+      console.log(productosBorrada)
       res.status(200).json({
-        msg: "eliminado producto",
-        productosBorrada
+        msg: "Eliminado exitoso",
       })
     }
 

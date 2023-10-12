@@ -27,6 +27,7 @@ router.get('/listar/:id',[
     validarJWT,
     check('id', 'No es un ID valido').isMongoId(),
     check('id', ).custom( existeIdProduc),
+    validarCampos
     
 ], controllerProductos.listarProductoID)
 

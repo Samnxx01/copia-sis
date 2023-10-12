@@ -6,7 +6,14 @@ import CategoriaAzucar   from '../models/categoriaAzucar.js';
 import productos from '../models/productos.js';
 
 
-export  async function esRoleValido(rol = '') {
+
+export  async function esRoleValido(rol = 'USUARIO') {
+    const existeRole = await Role.findOne({ rol });
+    if (!existeRole) {
+        throw new Error(`El rol  no está registrado en la base de datos`);
+    }
+}
+export  async function esRoleValidoAdmin(rol = 'ADMINISTRADOR_ROLE') {
     const existeRole = await Role.findOne({ rol });
     if (!existeRole) {
         throw new Error(`El rol  no está registrado en la base de datos`);
@@ -59,14 +66,24 @@ export async function existeIdUsuario(id) {
 }
 export async function existeIdCategoria(id) {
     const existeUsuario = await Categoria.findById(id);
-    // Si no se encuentra el usuario, simplemente retornamos false en lugar de lanzar un error
+    // Si no se encuentra el categoria, simplemente retornamos false en lugar de lanzar un error
     return !!existeUsuario;
 }
 
 export async function existeIdProduc(id) {
     const existeUsuario = await productos.findById(id);
-    // Si no se encuentra el usuario, simplemente retornamos false en lugar de lanzar un error
+    // Si no se encuentra el producto, simplemente retornamos false en lugar de lanzar un error
     return !!existeUsuario;
 }
+export async function coleccionesPermitidas(coleccion = '', colecciones = []) {
+    
+    const incluida = colecciones.includes(coleccion); // Corregir "incluides" a "includes"
+    if (!incluida) {
+        throw new Error(`La colección ${coleccion} no es permitida. Colecciones permitidas: ${colecciones}`)
+    }
+    return true;
+    // Si no se encuentra la colección, simplemente retornamos false en lugar de lanzar un error
+}
+
 
 

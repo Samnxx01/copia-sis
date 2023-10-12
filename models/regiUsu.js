@@ -18,10 +18,17 @@ const RegisUsuSchema = new Schema({
         type: String,
         required: [true, 'La contraseña es obligatoria']
     },
+    img: {
+        type: String,
+    },
+    
     rol: {
         type: String,
         required: true,
+        default: 'USUARIO',
+        emun: ['ADMINISTRADOR_ROLE', 'USUARIO']
     },
+    
     estado: {
         type: Boolean,
         default: true

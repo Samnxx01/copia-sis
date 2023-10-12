@@ -13,6 +13,7 @@ import buscar from './routes/buscar.js'
 import img from './routes/upload.js'
 import dot from 'dotenv'
 import fileUpload from 'express-fileupload'
+import nodemailer  from 'nodemailer'
 //import db from './database/db.js'
 
 //configuracion a mongoose
@@ -20,7 +21,18 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
-
+//servicio de correo electronico
+const transporter = nodemailer.createTransport({
+    /**
+     * Para utilizar otro servicio de correo electrónico, como Yahoo o Outlook, debes
+     * cambiar el valor de la propiedad service y ajustar la configuración de autenticación correspondiente.
+     */
+    service: "gmail",
+    auth: {
+      user: "urianwebdeveloper@gmail.com",
+      pass: "tcgsaaiuilyreuzc",
+    },
+  });
 
 //Creamos el servidor con el modulo http
 const server = http.createServer(app)
@@ -33,7 +45,9 @@ const io = new Socketserver(server,{
 //conexion de middlewares
 app.use(fileUpload({
     useTempFiles : true,
-    tempFileDir : '/tmp/'
+    tempFileDir : '/tmp/',
+    createParentPath: true
+
 }));
 app.use(cors())
 app.use(morgan('dev'))

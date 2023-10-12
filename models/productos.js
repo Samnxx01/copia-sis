@@ -12,6 +12,9 @@ const ProductosSchema = new Schema({
         type: Boolean,
         default: true
     },
+    img: {
+        type: String,
+    },
     regisUsu: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'RegisUsu'

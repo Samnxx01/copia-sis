@@ -68,19 +68,12 @@ var registrousu = {
             var params = req.body;
 
 
-            // Verificar que el rol sea "usuario"
-        if (params.rol !== "USUARIO") {
-            return res.status(400).json({
-                error: `el rol debe ser usuario`
-            });
-        }
-
             // Crear una instancia de Regis (si es una clase o función)
             const registro = new Regis({
                 nickname: params.nickname,
                 correo: params.correo,
                 password: params.password,
-                rol: params.rol,
+                rol: 'USUARIO'
 
             });
 
@@ -94,7 +87,7 @@ var registrousu = {
             
             
             res.status(200).json({
-                msg: 'Registro Completado',
+                msg: 'Registro Exitoso',
                 guardarApi,
                 token
               
@@ -121,18 +114,14 @@ var registrousu = {
             var params = req.body;
 
 
-            if (params.rol !== "ADMINISTRADOR_ROLE") {
-                return res.status(400).json({
-                    error: `el rol debe ser administrador`
-                });
-            }
+ 
 
             // Crear una instancia de Regis (si es una clase o función)
             const registro = new Regis({
                 nickname: params.nickname,
                 correo: params.correo,
                 password: params.password,
-                rol: params.rol
+                rol: 'ADMINISTRADOR_ROLE'
 
             });
 

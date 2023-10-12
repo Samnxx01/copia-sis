@@ -214,10 +214,10 @@ var login = {
          /*const eliminarUsuario = await Regis.findByIdAndDelete(id);*/
 
          const estadoss = await registros.findByIdAndUpdate( id, {estado:false});         
-
+         console.log(estadoss)
         res.status(200).json({
             msg: 'se ha desactivo el usuario',
-            estadoss
+        
             
         })
     },
