@@ -72,6 +72,20 @@ var imgsubido = {
         }
 
     },
+    guadarImgAdmin: async (req, res = response) => {
+      
+        
+      try {
+        const nombre = await subirArchivos (req.files,undefined, 'img' );
+        res.json({
+          nombre
+        })
+      } catch (msg) {
+        res.status(400).json({msg})
+        
+      }
+
+  },
 
     ModificarImg: async (req, res = response) => {
 

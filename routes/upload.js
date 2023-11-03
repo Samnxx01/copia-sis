@@ -20,24 +20,36 @@ var router = express.Router()
 //listar imagenes
 
 router.get('/admin/:coleccion/:id',[
-    
+    validarJWT,
     check('id', 'El id debe ser mongo').isMongoId(),
     check('coleccion').custom(c => coleccionesPermitidas(c,['regisUsu', 'productos'])),
+    esAdminRole,
     validarCampos
 ], imagen.listarImg);
 
 //ruta para subir archivo
 router.post('/admin',[
+    validarJWT,
     validarArchivosSubir,
     validarJWT,
     esAdminRole
-], imagen.guadarImg)
+], imagen.guadarImgAdmin)
 
 //actualizar imagen de productos y usuarios
 router.put('/admin/:coleccion/:id',[
+    validarJWT,
     validarArchivosSubir,
     check('id', 'El id debe ser mongo').isMongoId(),
     check('coleccion').custom(c => coleccionesPermitidas(c,['regisUsu', 'productos'])),
+    esAdminRole,
+    validarCampos
+], imagen.ModificarImg);
+
+router.put('/usuarios/:coleccion/:id',[
+    validarJWT,
+    validarArchivosSubir,
+    check('id', 'El id debe ser mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c,['regisUsu',])),
     validarCampos
 ], imagen.ModificarImg);
 

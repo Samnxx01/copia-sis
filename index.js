@@ -9,11 +9,14 @@ import router from './routes/apis.js'
 import login from './routes/auth.js'
 import categorias from './routes/categorias.js'
 import productos from './routes/productos.js'
+import perfil from './routes/perfil.js'
 import buscar from './routes/buscar.js'
 import img from './routes/upload.js'
+import carrito from './routes/carrito.js'
 import dot from 'dotenv'
 import fileUpload from 'express-fileupload'
 import nodemailer  from 'nodemailer'
+
 //import db from './database/db.js'
 
 //configuracion a mongoose
@@ -59,6 +62,8 @@ app.use('/api/categorias', categorias)
 app.use('/api/productos', productos)
 app.use('/api/buscar', buscar)
 app.use('/api/img', img)
+app.use('/api/carrito', carrito)
+app.use('/api/perfil', perfil)
 
 
 

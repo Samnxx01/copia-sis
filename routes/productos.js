@@ -18,7 +18,6 @@ router.get('/listar/admin',[
 
 //obtener categorias - usuario
 router.get('/listar',[
-    validarJWT,
     
 ], controllerProductos.listarProducto)
 
