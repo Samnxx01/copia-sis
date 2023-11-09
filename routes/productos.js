@@ -2,6 +2,7 @@ import express from 'express';
 import{ check } from'express-validator'
 import validarCampos from '../middlewares/validar.campos.js';
 import validarJWT from '../middlewares/validar-jwt-seguridad.js';
+
 import controllerProductos from '../controllers/productos.js'
 import {esAdminRole} from '../middlewares/validar-roles.js';
 import {existeIdCategoria, existeIdProduc} from '../helpers/db-validators.js';

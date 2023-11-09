@@ -3,27 +3,27 @@ import perfilInfo from '../models/perfil.js'
 
 let perfil = {
 
-  listarPerfil: async (req, res = response) => {
-    const {nickcname, telefono, ...body} =req.body
-  
-    const data ={
-      ...body,
-      nombre: body.nickcname,
+  listarPerfil: async (req, res) => {
 
-      regisUsu: req.registrosUsu._id
-    }
+    try {
+      // Obtiene todos los registros de la colección
 
+      const registros = await perfilInfo.find();
 
-
-    const producto = await new perfilInfo(data)
-    await producto.save();
-    
-    res.status(201).json({
-      msg: 'Perfil Actualizado',
-      producto
-    });
-  },
-
+     
+      // Envía los registros como respuesta en formato JSON
+      res.status(200).json({
+          msg: 'Listado registros',
+          registros,
+         
+      });
+  } catch (error) {
+      console.error('Error en la operación:', error);
+      res.status(500).json({
+          error: 'Hubo un error en la operación',
+      });
+  }
+},
 
     guadarPerfil: async (req, res = response) => {
       
@@ -50,26 +50,14 @@ let perfil = {
 
     },
 
-      eliminarPerfil: async (req, res = response) => {
-        const {nickcname, telefono, ...body} =req.body
-      
-        const data ={
-          ...body,
-          nombre: body.nickcname,
-    
-          regisUsu: req.registrosUsu._id
-        }
-  
-  
-  
-        const producto = await new perfilInfo(data)
-        await producto.save();
-        
-        res.status(201).json({
-          msg: 'Perfil Actualizado',
-          producto
-        });
-      },
+    eliminarPerfil: async (req, res = response) => {
+      const {id} = req.params;
+      const productosBorrada = await Productosss.findByIdAndUpdate( id)
+      console.log(productosBorrada)
+      res.status(200).json({
+        msg: "Eliminado exitoso",
+      })
+    }, 
 
       modificarPerfil: async (req, res = response) => {
         const {nickcname, telefono, ...body} =req.body
