@@ -52,8 +52,8 @@ let perfil = {
 
     eliminarPerfil: async (req, res = response) => {
       const {id} = req.params;
-      const productosBorrada = await Productosss.findByIdAndUpdate( id)
-      console.log(productosBorrada)
+      const perfilEliminado = await comentarios.findByIdAndUpdate( id)
+      console.log(perfilEliminado)
       res.status(200).json({
         msg: "Eliminado exitoso",
       })
@@ -64,7 +64,6 @@ let perfil = {
       
         const data ={
           ...body,
-          nombre: body.nickcname,
     
           regisUsu: req.registrosUsu._id
         }

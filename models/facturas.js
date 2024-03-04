@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const FormularioSchema = new Schema({
+const FacturaSchema = new Schema({
 
         nickname: {
             type: String,
@@ -20,7 +20,11 @@ const FormularioSchema = new Schema({
         direccion: {
             type: String,
             required: [true, 'La direccion es obligatoria']
-        }
+        },
+        regisUsu: { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'RegisUsu'
+        },
 });
 
-export default mongoose.model('Formulario', FormularioSchema);
+export default mongoose.model('Factura', FacturaSchema);

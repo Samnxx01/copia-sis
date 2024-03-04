@@ -70,7 +70,68 @@ var login = {
             })
             
         }       
-},
+}, 
+        guardarTecnico: async (req, res = response) => {
+
+            const {correo , password} = req.body
+
+            try {
+                
+                //verificar si el email existe
+                const verificar = await registros.findOne({correo});
+            
+                if(verificar != null){
+
+                    //SI el usuario esta activo
+
+                    if ( !verificar.estado ){
+                        return res.status(400).json({
+                            msg: 'estado inactivo'
+                        })
+                    }
+                    
+                    //verficar la contraseña
+                
+                    const validarcontra = bcryptjs.compareSync(password, verificar.password);
+                    if (!validarcontra) {
+
+                        return res.status(400).json({
+                            msg:'Escribio mal la password'
+                        }) 
+                    }
+                } else return res.status(400).json({
+                    msg: 'no se encontro un registro'
+                })
+
+                if (verificar.rol !== 'COORDINADOR' && verificar.rol !== 'TECNICO_ROLE') {
+                    return res.status(400).json({
+                      msg: 'No eres ni tecnico ni coordinador'
+                    });
+                  }
+                  
+
+                // Actualizar el campo tiemposesion con la fecha actual
+                    verificar.tiempoSesion = new Date();
+                    await verificar.save();
+
+                //generar el JWT
+                const token = await generarJWT(verificar.id)
+
+                res.status(200).json({
+                    verificar,
+                    token,
+
+
+                })
+                
+            } catch (error) {
+                console.log(error)
+                res.status(500).json({
+                    msg: 'hable con el administrador'
+                })
+                
+            }       
+        },
     guardarAdmin: async (req, res = response) => {
 
         const {correo , password} = req.body
@@ -145,11 +206,7 @@ var login = {
             })
             
         }
-
-
-        
     },
-
 
     googleSingIn: async (req, res = response) => {
 

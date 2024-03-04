@@ -16,6 +16,9 @@ import carrito from './routes/carrito.js'
 import dot from 'dotenv'
 import fileUpload from 'express-fileupload'
 import nodemailer  from 'nodemailer'
+import factura from './routes/factura.js'
+import paisyciudad from './routes/pais-ciudad.js'
+import inventario from './routes/inventario.js'
 
 //import db from './database/db.js'
 
@@ -64,6 +67,8 @@ app.use('/api/buscar', buscar)
 app.use('/api/img', img)
 app.use('/api/carrito', carrito)
 app.use('/api/perfil', perfil)
+app.use('/api/seleccion', paisyciudad)
+app.use('/api/inventario', inventario)
 
 
 
@@ -71,25 +76,36 @@ io.on('connection', (socket)=>{
     console.log(socket.id)
     console.log("Cliente conectado")
 
-
     socket.on('message',(message,nickname)=>{
         socket.broadcast.emit('message',{
             body: message,
             from: nickname
-        })
+        })    
+    })
+
+    socket.on('disconnect', ()=>{
+        console.log('cliente desconectado')
+    })
+
+    socket.on('agregar-impresora',(payload) =>{
+        console.log(payload)
     })
 })
+
+
+
 
 //variables de entorno
 dot.config();
 const url = process.env.MONGODB_URI; 
 const PORT = process.env.PORT;
+const dbName = process.env.DBNAME
 
 
 
 
 //conexion a la BDD Y PETICIONES
-mongoose.connect(url,{useNewUrlParser:true}).then(()=>{
+mongoose.connect(url,{useNewUrlParser:true, dbName: dbName}).then(()=>{
     console.log('Conexion a la db exitosa')
     server.listen(PORT, ()=>{
         console.log('servidor ejecutandose en http://localhost',PORT)

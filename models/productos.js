@@ -28,11 +28,6 @@ const ProductosSchema = new Schema({
         ref:'Categoria',
         required: true
     },
-    inCart:{
-        type: Boolean,
-        default:true
-
-    },
     descripcion:{type:String},
     disponible:{type:Boolean, default: true}
 

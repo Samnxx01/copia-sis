@@ -8,17 +8,17 @@ const CarritoSchema = new Schema({
         required: [true, 'El nombre es obligatorio'],
         unique: true
     },*/
-    regisUsu: { 
+    productos:{
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'regisUsu'
-    },    
-    estado: {
-        type: Boolean,
-        default: true
+        ref: 'Producto',
+        required: true
     },
     cantidad: {
         type: String,
     },
+    total:{
+        type: Number,
+    }
 
 
 

@@ -12,7 +12,7 @@ router.get('/listar/admin')
 
 
 //crear categorias - cualquier adminsitador valido
-router.post('/guardarCarrito/:id', carritoController.guadarCarrito) 
+router.post('/guardarCarrito', carritoController.guadarCarrito) 
 
 
 

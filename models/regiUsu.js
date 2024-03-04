@@ -9,6 +9,10 @@ const RegisUsuSchema = new Schema({
         type: String,
         required: [true, 'El nickname es obligatorio']
     },
+    apellido: {
+        type: String,
+        required: [true, 'El apellido es obligatorio']
+    },
     correo: {
         type: String,
         required: [true, 'El correo es obligatorio'],
@@ -17,6 +21,10 @@ const RegisUsuSchema = new Schema({
     password: {
         type: String,
         required: [true, 'La contraseña es obligatoria']
+    },
+    telefono: {
+        type: Number,
+        required: [true, 'El telefono es obligatoria']
     },
     img: {
         type: String,
@@ -40,7 +48,19 @@ const RegisUsuSchema = new Schema({
     google: {
         type: Boolean,
         default: false
-    }
+    },
+    pais:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Pais',
+    },
+    ciudad:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Pais',
+    },
+    municipio:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Municipio',
+    },
 });
 
 

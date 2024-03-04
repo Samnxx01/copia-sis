@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const FormularioSchema = new Schema({
 
-        nickname: {
+        nombre_producto: {
             type: String,
             required: [true, 'El nickname es obligatorio']
         },

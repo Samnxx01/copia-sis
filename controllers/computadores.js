@@ -1,8 +1,8 @@
 import { response } from 'express';
-import comentarios   from '../models/comentarios.js';
+import computadores   from '../models/computadores.js';
 
 
-var comentariosss = {
+var computa = {
   
 
    listarComentario: async (req, res = response) => {
@@ -11,10 +11,10 @@ var comentariosss = {
       const id = req.params.id
       const query = {estado : true}
 
-      const registros = await comentarios.find(query, id)
+      const registros = await computadores.find(query, id)
       .populate('regisUsu', 'nickname')
     
-      const total = await comentarios.countDocuments(query)
+      const total = await computadores.countDocuments(query)
       
      
       // Envía los registros como respuesta en formato JSON
@@ -46,7 +46,7 @@ var comentariosss = {
 
 
 
-      const producto = await new comentarios(data)
+      const producto = await new computadores(data)
       await producto.save();
       
       res.status(201).json({
@@ -64,7 +64,7 @@ var comentariosss = {
       }*/
       
       data.regisUsu = req.registrosUsu._id;
-      const productos = await comnentarios.findByIdAndUpdate(id, data ,{new:true})
+      const productos = await computadores.findByIdAndUpdate(id, data ,{new:true})
       .populate('regisUsu', 'nickname')
       
 
@@ -76,7 +76,7 @@ var comentariosss = {
 
     eliminarComentario: async (req, res = response) => {
       const {id} = req.params;
-      const productosBorrada = await comentarios.findByIdAndUpdate( id,{estado: false, disponible:false},{new: true})
+      const productosBorrada = await computadores.findByIdAndUpdate( id,{estado: false, disponible:false},{new: true})
       console.log(productosBorrada)
       res.status(200).json({
         msg: "Eliminado exitoso",
@@ -86,4 +86,4 @@ var comentariosss = {
 };
 
 
-export default comentariosss;
+export default computa;
