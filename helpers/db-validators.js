@@ -24,13 +24,13 @@ export  async function esRoleValidoAdmin(rol = 'ADMINISTRADOR_ROLE') {
         throw new Error(`El rol  no está registrado en la base de datos`);
     }
 }
-export async function esRoleValidoAmbos(rol = 'TECNICO') {
+/*export async function esRoleValidoAmbos(rol = 'TECNICO') {
     const rolesValidos = ['TECNICO', 'COORDINADOR'];
     const existeRole = await Role.findOne({ rol: { $in: rolesValidos } });
     if (!existeRole) {
       throw new Error(`El rol  no está registrado en la base de datos`);
     }
-  }
+  }*/
   
 export  async function esRoleValidTecnico(rol = 'TECNICO') {
     const existeRole = await Role.findOne({ rol });

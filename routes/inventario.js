@@ -17,6 +17,7 @@ var router = express.Router()
 
 //Rutas de registro tecnico 
 router.post('/registro/tecnico',[
+
 check('nickname', 'El nickname es obligatorio').not().isEmpty(),
 check('nickname', ).custom( nombreExiste),
 check('correo', 'correo no es valido').isEmail(),
@@ -28,7 +29,7 @@ check('rol', ).custom( esRoleValidTecnico),
 validarCampos
 ] ,RegisController.guardarTenico)
 
-//Rutas de registro tecnico 
+//Rutas de registro coordinador
 router.post('/registro/coordinador',[
     check('nickname', 'El nickname es obligatorio').not().isEmpty(),
     check('nickname', ).custom( nombreExiste),
@@ -45,9 +46,12 @@ router.post('/registro/coordinador',[
 router.post('/login/tecnico',[
 check('correo', 'correo no es valido').isEmail(),
 check('password', 'contraseña no es valido').isLength({ min: 6}),
-check('rol', ).custom( esRoleValidTecnico, esRoleValidoCoordinador ),
+//check('rol', ).custom( esRoleValidTecnico ),
 validarCampos
 ], LoginController.guardarTecnico)
+
+
+
 //obtener categorias - admin
 router.get('/listar/usuario')
 

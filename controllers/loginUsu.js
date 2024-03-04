@@ -1,5 +1,6 @@
 import { response } from 'express';
 import registros from '../models/regiUsu.js';
+import registroUross from '../models/registUros.js'
 import bcryptjs from 'bcryptjs'
 import { generarJWT } from '../helpers/generar-jwt.js';
 import googleVerify from '../helpers/google-verfity.js'
@@ -78,7 +79,7 @@ var login = {
             try {
                 
                 //verificar si el email existe
-                const verificar = await registros.findOne({correo});
+                const verificar = await registroUross.findOne({correo});
             
                 if(verificar != null){
 
@@ -102,12 +103,6 @@ var login = {
                 } else return res.status(400).json({
                     msg: 'no se encontro un registro'
                 })
-
-                if (verificar.rol !== 'COORDINADOR' && verificar.rol !== 'TECNICO_ROLE') {
-                    return res.status(400).json({
-                      msg: 'No eres ni tecnico ni coordinador'
-                    });
-                  }
                   
 
                 // Actualizar el campo tiemposesion con la fecha actual

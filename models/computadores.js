@@ -31,47 +31,51 @@ const CompuSchema = new Schema({
         },
         placa: {
             type: String,
-            required: [true, 'El numero es obligatoria']
+            required: [true, 'La placa es obligatoria']
         },
         disco_duro: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'La disco duro es obligatoria']
         },
         memoria_ram: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'La memoria ram es obligatoria']
         },
         serial: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'La serial es obligatoria']
         },
         mac: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'La mac es obligatoria']
         },
         ip: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'La ip es obligatoria']
         },
         usuario: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'El usuario es obligatoria']
         },
         clave: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'La clave es obligatoria']
         },
         nombre_asignado: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'El nombre asginado es obligatoria']
         },
         dominio: {
             type: String,
-            required: [true, 'La direccion es obligatoria']
+            required: [true, 'EL dominio es obligatoria']
         },
         estado: {
             type: Boolean,
             default: true
+        },
+        observacion: {
+            type: String,
+            required: [true, 'La observacion es obligatoria']
         },
 
 });

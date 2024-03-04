@@ -1,5 +1,6 @@
 import { response } from 'express';
 import Regis from '../models/regiUsu.js';
+import RegistroUross from '../models/registUros.js';
 import { generarJWT } from '../helpers/generar-jwt.js';
 import bcryptjs from "bcryptjs"
 
@@ -137,6 +138,10 @@ var registrousu = {
             });
         }
     },
+
+
+
+    //guardar en el sistema de invetario
         guardarTenico: async (req, res = response) => {
         
 
@@ -146,7 +151,7 @@ var registrousu = {
 
 
             // Crear una instancia de Regis (si es una clase o función)
-            const registro = new Regis({
+            const registro = new RegistroUross({
                 nickname: params.nickname,
                 apellido: params.apellido,
                 correo: params.correo,
@@ -194,7 +199,7 @@ var registrousu = {
 
 
                 // Crear una instancia de Regis (si es una clase o función)
-                const registro = new Regis({
+                const registro = new RegistroUross({
                     nickname: params.nickname,
                     apellido: params.apellido,
                     correo: params.correo,
@@ -231,6 +236,8 @@ var registrousu = {
                 });
             }
         },
+
+        //hasta aqui todo finaliza
 
     guardarAdmin: async (req, res = response) => {
         
