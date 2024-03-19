@@ -7,7 +7,7 @@ import RegisController from '../controllers/RegiUsu.js'
 import { emailExiste, esRoleValidTecnico, esRoleValidoCoordinador, existeIdImpresoras, nombreExiste, nombreExisteSerial } from '../helpers/db-validators.js';
 import LoginController from '../controllers/loginUsu.js'
 import validarCampos from '../middlewares/validar.campos.js';
-import validarJWT from '../middlewares/validar-jwt-seguridad.js';
+import validarJWT from '../middlewares/validar-jwt-uros.js';
 //rutas para computadores 
 
 
@@ -60,7 +60,11 @@ router.get('/listar/usuario')
 
 //api de computadores de listar
  
+//api de impresoras de listarID
 
+router.get('/listarimpresora',[
+
+], ImpresoraController.listarImpresoraID)
 
 //api de impresoras de listar
 
@@ -70,6 +74,7 @@ router.get('/listarimpresoras',[
 
 
 router.post('/guardarimpresoras',[
+    //validarJWT,
     check('sedes','la sede es obligatorio').not().isEmpty(),
     check('pisos','el piso es obligatorio').not().isEmpty(),
     check('ip','la ip es obligatorio').not().isEmpty(),
@@ -82,6 +87,22 @@ router.post('/guardarimpresoras',[
     validarCampos
 
 ], ImpresoraController.guadarImpresora)
+
+router.post('/guardarComputador',[
+    validarJWT,
+    check('sedes','la sede es obligatorio').not().isEmpty(),
+    check('pisos','el piso es obligatorio').not().isEmpty(),
+    check('ip','la ip es obligatorio').not().isEmpty(),
+    check('serial','La serial no se puede repetir').custom(nombreExisteSerial),
+    check('mac','la mac es obligatorio').not().isEmpty(),
+    check('marca','la marca es obligatorio').not().isEmpty(),
+    check('contador', ).not().isEmpty(),
+    check('fecha','la fecha es obligatorio').not().isEmpty(),   
+    //check('categoria', 'no es un id mongo').isMongoId(),
+    validarCampos
+
+], ImpresoraController.guadarImpresora)
+
 
 
 

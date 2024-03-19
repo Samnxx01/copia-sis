@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const CompuSchema = new Schema({
 
+        fecha_registro: {
+            type: String,
+            required: [true, 'La fecha es obligatoria']
+        },
         sede: {
             type: String,
             required: [true, 'La sede es obligatorio']
@@ -11,7 +15,6 @@ const CompuSchema = new Schema({
         ubicacion: {
             type: String,
             required: [true, 'La ubicacion es obligatorio'],
-            unique: true
         },
         area: {
             type: Number, // Cambiar el tipo de dato a Number
@@ -62,6 +65,18 @@ const CompuSchema = new Schema({
             required: [true, 'La clave es obligatoria']
         },
         nombre_asignado: {
+            type: String,
+            required: [true, 'El nombre asginado es obligatoria']
+        },
+        cedula: {
+            type: Number,
+            required: [true, 'El nombre asginado es obligatoria']
+        },
+        fecha_mantenimiento: {
+            type: String,
+            required: [true, 'La fecha es obligatoria']
+        },
+        tecnico: {
             type: String,
             required: [true, 'El nombre asginado es obligatoria']
         },

@@ -113,6 +113,7 @@ var login = {
                 const token = await generarJWT(verificar.id)
 
                 res.status(200).json({
+                    msg: 'se inicio sesion',
                     verificar,
                     token,
 
@@ -127,81 +128,81 @@ var login = {
                 
             }       
         },
-    guardarAdmin: async (req, res = response) => {
+        guardarAdmin: async (req, res = response) => {
 
-        const {correo , password} = req.body
+            const {correo , password} = req.body
 
-        try {
-            
-            //verificar si el email existe
-            const auten = await registros.findOne({correo});
-        
-            if(auten != null){
-
-                //SI el usuario esta activo
-
-                if ( !auten.estado ){
-                    return res.status(400).json({
-                        msg: 'estado inactivo'
-                    })
-                }
+            try {
                 
-                //verficar la contraseña
+                //verificar si el email existe
+                const auten = await registros.findOne({correo});
             
-                const validarcontra = bcryptjs.compareSync(password, auten.password);
-                if (!validarcontra) {
+                if(auten != null){
 
+                    //SI el usuario esta activo
+
+                    if ( !auten.estado ){
+                        return res.status(400).json({
+                            msg: 'estado inactivo'
+                        })
+                    }
+                    
+                    //verficar la contraseña
+                
+                    const validarcontra = bcryptjs.compareSync(password, auten.password);
+                    if (!validarcontra) {
+
+                        return res.status(400).json({
+                            msg:'Escribio mal la password'
+                        }) 
+                    }
+                } else return res.status(400).json({
+                    msg: 'no se encontro un registro'
+                })
+
+                if (auten.rol !== 'ADMINISTRADOR_ROLE') {
                     return res.status(400).json({
-                        msg:'Escribio mal la password'
-                    }) 
+                        msg: 'No tienes permisos de administrador'
+                    });
                 }
-            } else return res.status(400).json({
-                msg: 'no se encontro un registro'
-            })
 
-            if (auten.rol !== 'ADMINISTRADOR_ROLE') {
-                return res.status(400).json({
-                    msg: 'No tienes permisos de administrador'
-                });
+
+
+                auten.tiempoSesion = new Date();
+                await auten.save();
+
+                /*const tiempoActual = new Date();
+                const tiempoSesion = tiempoActual - auten.tiempoSesion;
+
+                if (tiempoSesion < tiempoMinimoSesion) {
+                    // Si la sesión ha estado abierta durante menos tiempo del mínimo requerido, puedes responder en consecuencia.
+                    return res.status(401).json({
+                    msg: `La sesión debe mantenerse abierta al menos ${tiempoMinimoSesion / 60000} minutos.`
+                    });
+                }*/
+                
+
+                //generar el JWT
+                const token = await generarJWT(auten.id)
+
+                res.status(200).json({
+                    auten,
+                    token
+                    
+
+                })
+                
+                
+            } catch (error) {
+
+                
+                console.log(error)
+                res.status(500).json({
+                    msg: 'Error en el servidor'
+                })
+                
             }
-
-
-
-            auten.tiempoSesion = new Date();
-            await auten.save();
-
-            /*const tiempoActual = new Date();
-            const tiempoSesion = tiempoActual - auten.tiempoSesion;
-
-            if (tiempoSesion < tiempoMinimoSesion) {
-                // Si la sesión ha estado abierta durante menos tiempo del mínimo requerido, puedes responder en consecuencia.
-                return res.status(401).json({
-                  msg: `La sesión debe mantenerse abierta al menos ${tiempoMinimoSesion / 60000} minutos.`
-                });
-              }*/
-              
-
-            //generar el JWT
-            const token = await generarJWT(auten.id)
-
-            res.status(200).json({
-                auten,
-                token
-                
-
-            })
-            
-            
-        } catch (error) {
-
-            
-            console.log(error)
-            res.status(500).json({
-                msg: 'Error en el servidor'
-            })
-            
-        }
-    },
+        },
 
     googleSingIn: async (req, res = response) => {
 

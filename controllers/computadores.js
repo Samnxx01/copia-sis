@@ -33,7 +33,7 @@ var computa = {
 },
 
 
-    guadarComentario: async (req, res = response) => {
+    guadarComputador: async (req, res = response) => {
       const {estado, regisUsu, ...body} =req.body
 
 
@@ -46,12 +46,12 @@ var computa = {
 
 
 
-      const producto = await new computadores(data)
-      await producto.save();
+      const computadors = await new computadores(data)
+      await computadors.save();
       
       res.status(201).json({
         msg: 'comentario Exitoso',
-        producto
+        computadors
       });
     },
 

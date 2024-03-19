@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import registroAu from '../models/regiUsu.js'
 
 
+
 const validarJWT = async (req, res, next) => {
     
     const token = req.header('metasploit')
@@ -42,4 +43,5 @@ const validarJWT = async (req, res, next) => {
         
     }
 }
+
 export default validarJWT;

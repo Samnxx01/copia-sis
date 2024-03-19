@@ -29,34 +29,52 @@ var impresor = {
   }
 },
 
+  listarImpresoraID: async (req, res = response) => {
+    try {
+          const { id } = req.params;
+
+
+          // Busca el registro por ID
+          
+          const verificarPro = await impresorasss.findById(id)
+          
+
+          if (!verificarPro) {
+              return res.status(404).json({ msg: 'Registro no encontrado' });
+          }
+
+          res.status(200).json({
+              msg: 'Impresora por ID Exitoso',
+              verificarPro
+          });
+      } catch (error) {
+          console.error("Error en la operación:", error);
+
+          res.status(500).json({
+              error: "Hubo un error en la operación"
+          });
+      }
+  },
+
 
   guadarImpresora: async (req, res = response) => {
           
-    
-      var params = req.body;
+    const {estado, registrosUros, ...body} =req.body
 
-      // Crear una instancia de Regis (si es una clase o función)
-      const registro = new impresorasss({
-        
-          sedes: params.sedes,
-          pisos: params.pisos,
-          ip: params.ip,
-          serial: params.serial,
-          mac: params.mac,
-          marca: params.marca,
-          ubicacion: params.ubicacion,
-          contador: params.contador,
-          fecha: params.fecha,
-          estado: params.estado
-      });
 
-      const guardarImpresoras = await registro.save();
-
-      res.status(200).json({
-        msg: 'Registro Completado',
-        guardarImpresoras,
+      
+    const data ={
+      ...body,   
+      registrosUros: req.uid, // Usar uid en lugar de req.registrosUros._id
+    };
+  
+    const impresos = await new impresorasss(data);
+    await impresos.save();
+  
+    res.status(201).json({
+      msg: 'Impresora Exitoso',
+      impresos
     });
-
   },
 
     modificarImpresora: async (req, res = response) => {
