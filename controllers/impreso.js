@@ -31,29 +31,26 @@ var impresor = {
 
   listarImpresoraID: async (req, res = response) => {
     try {
-          const { id } = req.params;
-
-
-          // Busca el registro por ID
-          
-          const verificarPro = await impresorasss.findById(id)
-          
-
-          if (!verificarPro) {
-              return res.status(404).json({ msg: 'Registro no encontrado' });
-          }
-
-          res.status(200).json({
-              msg: 'Impresora por ID Exitoso',
-              verificarPro
-          });
-      } catch (error) {
-          console.error("Error en la operación:", error);
-
-          res.status(500).json({
-              error: "Hubo un error en la operación"
-          });
+      const { id, serial } = req.params;
+  
+      // Buscamos el registro por ID y serial
+      const verificarPro = await impresorasss.findOne({ id, serial });
+  
+      if (!verificarPro) {
+        return res.status(404).json({ msg: 'Registro no encontrado' });
       }
+  
+      res.status(200).json({
+        msg: 'Impresora por ID y Serial Exitoso',
+        verificarPro,
+      });
+    } catch (error) {
+      console.error('Error en la operación:', error);
+  
+      res.status(500).json({
+        error: 'Hubo un error en la operación',
+      });
+    }
   },
 
 
@@ -65,13 +62,17 @@ var impresor = {
       
     const data ={
       ...body,   
+
       registrosUros: req.uid, // Usar uid en lugar de req.registrosUros._id
+     
     };
+    console.log(registrosUros)
+  
   
     const impresos = await new impresorasss(data);
     await impresos.save();
   
-    res.status(201).json({
+    res.status(201).json({  
       msg: 'Impresora Exitoso',
       impresos
     });

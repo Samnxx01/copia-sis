@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const CompuSchema = new Schema({
 
-        fecha_registro: {
+        fecha: {
             type: String,
             required: [true, 'La fecha es obligatoria']
         },
@@ -12,13 +12,9 @@ const CompuSchema = new Schema({
             type: String,
             required: [true, 'La sede es obligatorio']
         },
-        ubicacion: {
+        ubicación: {
             type: String,
             required: [true, 'La ubicacion es obligatorio'],
-        },
-        area: {
-            type: Number, // Cambiar el tipo de dato a Number
-            required: [true, 'El area es obligatorio']
         },
         marca: {
             type: String,
@@ -46,7 +42,8 @@ const CompuSchema = new Schema({
         },
         serial: {
             type: String,
-            required: [true, 'La serial es obligatoria']
+            required: [true, 'La serial es obligatoria'],
+            unique: true
         },
         mac: {
             type: String,
@@ -88,7 +85,7 @@ const CompuSchema = new Schema({
             type: Boolean,
             default: true
         },
-        observacion: {
+        observaciones: {
             type: String,
             required: [true, 'La observacion es obligatoria']
         },

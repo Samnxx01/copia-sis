@@ -19,7 +19,8 @@ const ImpresorasSchema = new Schema({
         },
         serial: {
             type: String,
-            required: [true, 'La serial es obligatoria']
+            required: [true, 'La serial es obligatoria'],
+            unique: true
         },
         mac: {
             type: String,

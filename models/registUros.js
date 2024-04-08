@@ -36,7 +36,6 @@ const RegistUrosSchema = new Schema({
         default: 'TECNICO',
         emun: ['TECNICO', 'COORDINADOR']
     },
-    
     estado: {
         type: Boolean,
         default: true

@@ -5,23 +5,20 @@ import computadores   from '../models/computadores.js';
 var computa = {
   
 
-   listarComentario: async (req, res = response) => {
+   listarCompu: async (req, res = response) => {
     try {
       // Obtiene todos los registros de la colección
-      const id = req.params.id
       const query = {estado : true}
 
-      const registros = await computadores.find(query, id)
-      .populate('regisUsu', 'nickname')
+      const listarCompu = await computadores.find(query)
     
-      const total = await computadores.countDocuments(query)
+      
       
      
       // Envía los registros como respuesta en formato JSON
       res.status(200).json({
           msg: 'Listado Exitoso',
-          total,
-          registros,
+          listarCompu,
          
       });
   } catch (error) {
