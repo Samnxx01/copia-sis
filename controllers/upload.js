@@ -84,7 +84,6 @@ var imgsubido = {
         res.status(400).json({msg})
         
       }
-
   },
 
     ModificarImg: async (req, res = response) => {

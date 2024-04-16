@@ -7,7 +7,7 @@ import path from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const subirArchivos = (files, extensionesValidas = ['png', 'jpg', 'jpeg', 'gif', 'mp4'], carpeta = '', ) => {
+const subirArchivos = (files, extensionesValidas = ['png', 'jpg', 'jpeg', 'gif', 'mp4', 'xlsx', 'pdf'], carpeta = '', ) => {
     return new Promise((resolve, reject) => {
         
         const { imagen } = files;

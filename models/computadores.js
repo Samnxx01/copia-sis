@@ -12,7 +12,7 @@ const CompuSchema = new Schema({
             type: String,
             required: [true, 'La sede es obligatorio']
         },
-        ubicación: {
+        ubicacion: {
             type: String,
             required: [true, 'La ubicacion es obligatorio'],
         },
@@ -89,6 +89,9 @@ const CompuSchema = new Schema({
             type: String,
             required: [true, 'La observacion es obligatoria']
         },
+       /* img: {
+            type: String,
+        },*/
 
 });
 

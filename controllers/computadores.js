@@ -38,7 +38,7 @@ var computa = {
       const data ={
         ...body,
   
-        regisUsu: req.registrosUsu._id
+        registrosUros: req.uid
       }
 
 
@@ -47,7 +47,7 @@ var computa = {
       await computadors.save();
       
       res.status(201).json({
-        msg: 'comentario Exitoso',
+        msg: 'Registro Exitoso',
         computadors
       });
     },
