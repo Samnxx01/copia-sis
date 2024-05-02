@@ -32,6 +32,7 @@ const validarJWT = async (req, res, next) => {
             
         }
         req.registrosUsu = registrosUsu
+        console.log(registrosUsu)
         //req.app.set(registrosUsu)
         next();
 

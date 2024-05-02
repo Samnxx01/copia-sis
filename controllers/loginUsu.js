@@ -4,6 +4,7 @@ import registroUross from '../models/registUros.js'
 import bcryptjs from 'bcryptjs'
 import { generarJWT } from '../helpers/generar-jwt.js';
 import googleVerify from '../helpers/google-verfity.js'
+import { generarJWTU } from '../helpers/generar-jwt-uros.js';
 
 var login = {
 
@@ -110,7 +111,7 @@ var login = {
                     await verificar.save();
 
                 //generar el JWT
-                const token = await generarJWT(verificar.id)
+                const token = await generarJWTU(verificar.id)
 
                 res.status(200).json({
                     msg: 'se inicio sesion',
@@ -249,64 +250,64 @@ var login = {
                     token,
                 });
             } 
-        } catch (error) {
-            console.error(error);
-            res.status(400).json({
-                ok: false,
-                msg: 'No se pudo iniciar sesión',
-            });
-        }
-    },
-
-    eliminar: async (req,res) => {
-        
-        const {id} = req.params;
-        
-
-        //fisicamnente lo borramos del modelo
-         /*const eliminarUsuario = await Regis.findByIdAndDelete(id);*/
-
-         const estadoss = await registros.findByIdAndUpdate( id, {estado:false});         
-         console.log(estadoss)
-        res.status(200).json({
-            msg: 'se ha desactivo el usuario',
-        
-            
-        })
-    },
-    modificar: async (req,res) => {
-
-        try {
-            const { id} = req.params;
-            const { _id, password, google, ...resto } = req.body;
-    
-            // Valida si la contraseña se proporciona y encripta
-            if (password) {
-                const salt = bcryptjs.genSaltSync(10);
-                resto.password = bcryptjs.hashSync(password.toString(), salt);
+            } catch (error) {
+                console.error(error);
+                res.status(400).json({
+                    ok: false,
+                    msg: 'No se pudo iniciar sesión',
+                });
             }
-    
-            // Verifica si el registro con el ID proporcionado existe antes de actualizar
-            const registroExistente = await registros.findById(id);
+        },
 
-
-            if (!registroExistente) {
-                return res.status(404).json({ msg: 'Registro no encontrado' });
-            }
-    
-            // Realiza la actualización del registro
-            const modi = await registros.findByIdAndUpdate(id, resto, { new: true }); // Usa { new: true } para obtener el registro actualizado
-    
-            res.json({
-                msg: 'Registro actualizado',
-                modi
-            });
+        eliminar: async (req,res) => {
             
-        } catch (error) {
-            console.error('Error al modificar registro:', error);
-            res.status(500).json({ msg: 'Error interno del servidor' });
-        }
-}, 
+            const {id} = req.params;
+            
+
+            //fisicamnente lo borramos del modelo
+            /*const eliminarUsuario = await Regis.findByIdAndDelete(id);*/
+
+            const estadoss = await registros.findByIdAndUpdate( id, {estado:false});         
+            console.log(estadoss)
+            res.status(200).json({
+                msg: 'se ha desactivo el usuario',
+            
+                
+            })
+        },
+        modificar: async (req,res) => {
+
+            try {
+                const { id} = req.params;
+                const { _id, password, google, ...resto } = req.body;
+        
+                // Valida si la contraseña se proporciona y encripta
+                if (password) {
+                    const salt = bcryptjs.genSaltSync(10);
+                    resto.password = bcryptjs.hashSync(password.toString(), salt);
+                }
+        
+                // Verifica si el registro con el ID proporcionado existe antes de actualizar
+                const registroExistente = await registros.findById(id);
+
+
+                if (!registroExistente) {
+                    return res.status(404).json({ msg: 'Registro no encontrado' });
+                }
+        
+                // Realiza la actualización del registro
+                const modi = await registros.findByIdAndUpdate(id, resto, { new: true }); // Usa { new: true } para obtener el registro actualizado
+        
+                res.json({
+                    msg: 'Registro actualizado',
+                    modi
+                });
+                
+            } catch (error) {
+                console.error('Error al modificar registro:', error);
+                res.status(500).json({ msg: 'Error interno del servidor' });
+            }
+    }, 
 
 };
 

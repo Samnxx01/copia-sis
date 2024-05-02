@@ -1,7 +1,8 @@
 import { response } from 'express';
 import Regis from '../models/regiUsu.js';
 import RegistroUross from '../models/registUros.js';
-import { generarJWT } from '../helpers/generar-jwt.js';
+import { generarJWTU } from '../helpers//generar-jwt-uros.js';
+import { generarJWT } from '../helpers//generar-jwt.js';
 import bcryptjs from "bcryptjs"
 
 
@@ -167,7 +168,7 @@ var registrousu = {
 
             //aqui se guarda la info en la db
             const guardarApi = await registro.save();
-            const token = await generarJWT(guardarApi.id)
+            const token = await generarJWTU(guardarApi.id)
             registro.tiempoSesion = new Date();
             
             

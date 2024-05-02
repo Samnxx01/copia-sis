@@ -1,8 +1,8 @@
 import { response } from 'express';
-import impresorasss from '../models/impresoras.js';
+import Bajasequipo from '../controllers/bajas.js'
 
 
-var impresor = {
+var bajasEqui = {
 
 
   listarImpresora: async (req, res = response) => {
@@ -78,29 +78,31 @@ var impresor = {
   },
 
 
-  guadarImpresora: async (req, res = response) => {
-
-    const { estado, registrosUros, ...body } = req.body
-
-
-
-    const data = {
-      ...body,
-
-      registrosUros: req.uid, // Usar uid en lugar de req.registrosUros._id
-
-    };
-    console.log(registrosUros)
+  guadarMunicipio: async (req, res = response) => {
+        
+  
+    var params = req.body;
 
 
-    const impresos = await new impresorasss(data);
-    await impresos.save();
 
-    res.status(201).json({
-      msg: 'Impresora Exitoso',
-      impresos
+
+    // Crear una instancia de Regis (si es una clase o función)
+    const registro = new Bajasequipo({
+      
+        municipio: params.municipio.toUpperCase(),
+        nombre_municipio: params.nombre_municipio.toUpperCase(),
+        postal: params.postal
+
     });
-  },
+
+    const guardarPais = await registro.save();
+
+    res.status(200).json({
+      msg: 'Registro Completado',
+      guardarPais,
+  });
+
+},
 
   modificarImpresora: async (req, res = response) => {
     const { id } = req.params
@@ -130,4 +132,4 @@ var impresor = {
 };
 
 
-export default impresor;
+export default bajasEqui;

@@ -4,7 +4,7 @@ import{ check } from'express-validator';
 import CompuController from '../controllers/computadores.js'
 import ImpresoraController from '../controllers/impreso.js'
 import RegisController from '../controllers/RegiUsu.js'
-import { emailExiste, esRoleValidTecnico, esRoleValidoCoordinador, existeIdImpresoras, nombreExiste, nombreExisteSerial } from '../helpers/db-validators.js';
+import { emailExiste, esRoleValidTecnico, esRoleValidoCoordinador,  existeIdBajass,  existeIdComputadores, existeIdImpresoras, existeIdUsuarioUros, nombreExiste, nombreExisteReportes, nombreExisteSerial } from '../helpers/db-validators.js';
 import LoginController from '../controllers/loginUsu.js'
 import validarCampos from '../middlewares/validar.campos.js';
 import cargarArchivoDB from '../controllers/uploads-uros.js'
@@ -12,6 +12,7 @@ import validarJWT from '../middlewares/validar-jwt-uros.js';
 import validarJWTU from '../middlewares/validar-jwt-uros.js';
 import subir from '../controllers/uploads-uros.js'
 import { esTecnico } from '../middlewares/validar-roles.js';
+import reportesController from '../controllers/reportes.js'
 //rutas para computadores 
 
 
@@ -48,10 +49,11 @@ router.post('/registro/coordinador',[
 
 //Rutas de login
 router.post('/login/tecnico',[
-check('correo', 'correo no es valido').isEmail(),
-check('password', 'contraseña no es valido').isLength({ min: 6}),
-//check('rol', ).custom( esRoleValidTecnico ),
-validarCampos
+    
+    check('correo', 'correo no es valido').isEmail(),
+    check('password', 'contraseña no es valido').isLength({ min: 6}),
+    //check('rol', ).custom( esRoleValidTecnico )
+    validarCampos
 ], LoginController.guardarTecnico)
 
 
@@ -65,13 +67,29 @@ router.post('/subirarchivos', subir.cargarArchivo )
 router.post('/subirarchivosuros', subir.cargarArchivoDB )
 
 
-//api de computadores de listar
+//api de reportes
+
  
 //api de impresoras de listarID
 
 router.get('/listarID/:serial',[
 
 ], ImpresoraController.listarImpresoraID)
+
+
+router.get('/listarIP/:ip',[
+
+], ImpresoraController.listarImpresoraIP)
+
+//api de buscar computadores
+router.get('/compu/listarID/:serial',[
+
+], CompuController.listarComputadoresID)
+
+
+router.get('/compu/listarIP/:ip',[
+
+], CompuController.listarComputadoresIP)
 
 //api api de computadores
 
@@ -88,7 +106,7 @@ router.get('/listarcompu',[
 
 
 router.post('/guardarimpresoras',[
-    validarJWTU,
+    
     check('sedes','la sede es obligatorio').not().isEmpty(),
     check('pisos','el piso es obligatorio').not().isEmpty(),
     check('ip','la ip es obligatorio').not().isEmpty(),
@@ -131,22 +149,62 @@ router.post('/guardarComputador',[
 ], CompuController.guadarComputador)
 
 
-
-
-
-
-router.put('/modificarImpresoras/:id',[
-    check('sedes','la sede es obligatorio').not().isEmpty(),
-    check('pisos','el piso es obligatorio').not().isEmpty(),
-    check('ip','la ip es obligatorio').not().isEmpty(),
-    check('serial','La serial no se puede repetir').custom(nombreExisteSerial),
-    check('mac','la mac es obligatorio').not().isEmpty(),
-    check('marca','la marca es obligatorio').not().isEmpty(),
-    check('contador', ).not().isEmpty(),
-    check('fecha','la fecha es obligatorio').not().isEmpty(), 
-      
+/*router.post('/guardarComputador', [
+    check('fecha', 'la fecha es obligatorio').not().isEmpty(),
+    check('sede', 'la sede es obligatorio').not().isEmpty(),
+    check('ubicacion', 'la ubicacion es obligatorio').not().isEmpty(),
+    check('area', 'el area es obligatorio').not().isEmpty(),
+    check('marca', 'la marca es obligatorio').not().isEmpty(),
+    check('nombre_equipo', 'el nombre del equipo es obligatorio').not().isEmpty(),
+    check('sistema_operativo', 'el sistema operativo es obligatorio').not().isEmpty(),
+    check('placa', 'la placa es obligatorio').not().isEmpty(),
+    check('disco_duro', 'el disco duro es obligatorio').not().isEmpty(),
+    check('memoria_ram', 'la memoeria ram es obligatorio').not().isEmpty(),
+    check('serial', 'El serial no se puede repetir').custom(nombreExisteSerial),
+    check('ip', 'la ip es obligatorio').not().isEmpty(),
+    check('usuario', 'El usuario es obligatorio').not().isEmpty(),
+    check('clave', 'la clave es obligatorio').not().isEmpty(),
+    check('nombre_asignado', 'la nombre  es obligatorio').not().isEmpty(),
+    check('cedula', 'la cedula es obligatorio').not().isEmpty(),
+    check('dominio', 'el dominio es obligatorio').not().isEmpty(),
+    check('mac', 'la mac es obligatorio').not().isEmpty(),
+    check('fecha_mantenimiento', 'la fecha de mantimiento es obligatorio').not().isEmpty(),
+    check('tecnico', 'la fecha es obligatorio').not().isEmpty(),
+    check('observaciones', 'la observacion es obligatorio').not().isEmpty(),
     //check('categoria', 'no es un id mongo').isMongoId(),
     validarCampos
+
+], CompuController.guadarComputador)*/
+
+//api de reportes
+router.post('/guardarReportes', [
+
+    check('fecha', 'La fecha es obligatorio').not().isEmpty(),
+    check('numero_caso', 'El numero caso no se puede repetir').custom(nombreExisteReportes),
+    check('impresoras', 'no es un id impresoras mongo').isMongoId(),
+    check('impresoras').custom(existeIdImpresoras),
+    check('registUros', 'no es un id UROS mongo').isMongoId(),
+    check('registUros').custom(existeIdUsuarioUros),
+    check('computadores', 'no es un id computadores mongo').isMongoId(),
+    check('computadores').custom(existeIdComputadores),
+    check('bajas', 'no es un id categoria mongo').isMongoId(),
+    check('bajas').custom(existeIdBajass),
+    check('marca', 'La marca es obligatorio').not().isEmpty(),
+    check('modelo', 'el modelo es obligatorio').not().isEmpty(),
+    check('serial_parte', 'el serial de la parte obligatorio').not().isEmpty(),
+    check('tipo_parte', 'La parte es obligatorio').not().isEmpty(),
+    check('fecha_instalacion', 'la fecha de instalacion es obligatorio' ).not().isEmpty(),
+   
+    //check('nombre', ).custom(nombreExisteProduc),
+    validarCampos
+], reportesController.guadarReportes)
+
+
+
+
+router.put('/modificarImpresoras/:id',[ 
+      
+    //check('categoria', 'no es un id mongo').isMongoId(),
 ], ImpresoraController.modificarImpresora);
 
 router.delete('/eliminarImpresoras/:id',[

@@ -9,6 +9,10 @@ import pais from '../models/pais.js';
 import muncipio from '../models/muncipio.js';
 import departamentosModels from '../models/departamentosModels.js';
 import Impresorasss from '../models/impresoras.js'
+import bajas from '../models/bajas.js'
+//import reportes from '../models/reportes.js'
+import Uros from '../models/registUros.js'
+import Computadores from '../models/computadores.js'
 
 
 
@@ -56,6 +60,12 @@ export  async function azucarValido(sinazucar = '') {
         throw new Error(`la categoria  no está registrado sin azucar en la base de datos`);
     }
 }
+export async function nombreExisteReportes(numero_caso = '') {
+    const nombreExiste = await reportes.findOne({ numero_caso });
+    if (nombreExiste) {
+        throw new Error(`El reporte  ya existe`);
+    }
+}
 
 
 
@@ -95,14 +105,22 @@ export async function nombreExisteProduc(nombre = '') {
 
 
 
-
-
-
+export async function existeIdComputadores(id) {
+    const existeUsuario = await Computadores.findById(id);
+    // Si no se encuentra el categoria, simplemente retornamos false en lugar de lanzar un error
+    return !!existeUsuario;
+}
 
 export async function existeIdCiudad(id) {
     const Existeciudad = await ciudad.findById(id);
     // Si no se encuentra el usuario, simplemente retornamos false en lugar de lanzar un error
     return !!Existeciudad;
+    
+}
+export async function existeIdUsuarioUros(id) {
+    const existeUsuario = await Uros.findById(id);
+    // Si no se encuentra el usuario, simplemente retornamos false en lugar de lanzar un error
+    return !!existeUsuario;
 }
 export async function existeIdMunicipio(id) {
     const Existeciudad = await muncipio.findById(id);
@@ -136,6 +154,13 @@ export async function existeIdPais(id) {
     // Si no se encuentra el categoria, simplemente retornamos false en lugar de lanzar un error
     return !!existeUsuario;
 }
+
+export async function existeIdBajass(id) {
+    const existeUsuario = await bajas.findById(id);
+    // Si no se encuentra el categoria, simplemente retornamos false en lugar de lanzar un error
+    return !!existeUsuario;
+}
+
 
 export async function existeIdProduc(id) {
     const existeUsuario = await productos.findById(id);
