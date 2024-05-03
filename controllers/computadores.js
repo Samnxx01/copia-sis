@@ -101,33 +101,33 @@ var computa = {
     });
   },
 
-  modificarComentario: async (req, res = response) => {
+  modificarCompu: async (req, res = response) => {
     const { id } = req.params
-    const { estado, regisUsu, ...data } = req.body;
+    const { estado, ...data } = req.body;
 
     /*if (data.nombre) {
       data.nombre = data.nombre.toUpperCase();
     }*/
 
-    data.regisUsu = req.registrosUsu._id;
-    const productos = await computadores.findByIdAndUpdate(id, data, { new: true })
-      .populate('regisUsu', 'nickname')
+    const modificacionCompu = await computadores.findByIdAndUpdate(id, data, { new: true })
 
 
     res.status(200).json({
       msg: 'Modificacion Exitosa',
-      productos
+      modificacionCompu
     })
   },
 
-  eliminarComentario: async (req, res = response) => {
+  eliminarComputadora: async (req, res = response) => {
     const { id } = req.params;
-    const productosBorrada = await computadores.findByIdAndUpdate(id, { estado: false, disponible: false }, { new: true })
-    console.log(productosBorrada)
+    const ComputadorBorrada = await computadores.findByIdAndUpdate(id, { estado: false })
+    console.log(ComputadorBorrada)
     res.status(200).json({
       msg: "Eliminado exitoso",
+      ComputadorBorrada
     })
   }
+
 
 };
 

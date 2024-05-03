@@ -79,31 +79,25 @@ var reporteass = {
 
 
   guadarReportes: async (req, res = response) => {
+    const {estado, regisUsu, ...body} =req.body    
+    
+    const data ={
+      ...body,
+      nombre: body.nombre.toUpperCase(),
 
-    var params = req.body;
+      regisUsu: req.registrosUsu._id
+    }
 
-    const nuevoReporte = new equipos({
-        fecha: params.fecha,
-        numero_caso: params.numero_caso,
-        computadores: params.computadores,
-        impresoras: params.impresoras,
-        registUros: params.registUros,
-        marca: params.marca,
-        modelo: params.modelo,
-        serial_parte: params.serial_parte,
-        tipo_parte: params.tipo_parte,
-        fecha_instalacion: params.fecha_instlacion,
-        estado: params.estado,
-        bajas: params.bajas
+
+
+    const producto = await new Productosss(data)
+    await producto.save();
+    
+    res.status(201).json({
+      msg: 'Producto creado Exitoso',
+      producto
     });
-
-    const guardarReportes = await nuevoReporte.save();
-
-    res.status(200).json({
-        msg: 'Registro Completado',
-        guardarReportes,
-    });
-},
+  },
 
   modificarImpresora: async (req, res = response) => {
     const { id } = req.params
