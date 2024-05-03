@@ -13,6 +13,7 @@ import validarJWTU from '../middlewares/validar-jwt-uros.js';
 import subir from '../controllers/uploads-uros.js'
 import { esTecnico } from '../middlewares/validar-roles.js';
 import reportesController from '../controllers/reportes.js'
+import bajasController from '../controllers/bajas.js'
 //rutas para computadores 
 
 
@@ -59,7 +60,7 @@ router.post('/login/tecnico', [
 
 
 //obtener categorias - admin
-router.get('/listar/usuario')
+//router.get('/listar/usuario')
 
 //api de subir archivo 
 
@@ -96,6 +97,10 @@ router.get('/compu/listarIP/:ip', [
 router.get('/listarimpresoras', [
 
 ], ImpresoraController.listarImpresora)
+
+router.get('/listarBajas', [
+
+], bajasController.listarBajas)
 
 
 //api de impresoras de listar
@@ -152,6 +157,14 @@ router.put('/modificarComputadora/:id', [
 
     //check('categoria', 'no es un id mongo').isMongoId(),
 ], CompuController.modificarCompu);
+//api de bajas
+router.post('/guardarbajas', [
+    check('numero_bajas', 'ingrese el numero de bajas').not().isEmpty(),
+    check('tipo_parte', 'cual parte es').not().isEmpty(),
+    check('serial_parte', 'ingrese el serial').not().isEmpty(),
+    check('diagnostico', 'escriba la observacion').not().isEmpty(),
+], bajasController.guadarbajas)
+
 
 router.delete('/eliminarComputadora/:id', [
 
@@ -195,7 +208,7 @@ router.delete('/eliminarComputadora/:id', [
 router.post('/guardarReportes', [
 
     check('fecha', 'La fecha es obligatorio').not().isEmpty(),
-    check('numero_caso', 'El numero caso no se puede repetir').custom(nombreExisteReportes),
+    check('numero_caso', 'El numero caso no se puede repetir').not().isEmpty(),
     check('impresoras', 'no es un id impresoras mongo').isMongoId(),
     check('impresoras').custom(existeIdImpresoras),
     check('registUros', 'no es un id UROS mongo').isMongoId(),
@@ -207,6 +220,7 @@ router.post('/guardarReportes', [
     check('serial_parte', 'el serial de la parte obligatorio').not().isEmpty(),
     check('tipo_parte', 'La parte es obligatorio').not().isEmpty(),
     check('fecha_instalacion', 'la fecha de instalacion es obligatorio').not().isEmpty(),
+    check('equipo_garantia', 'la garantia de instalacion es obligatorio').not().isEmpty(),
     check('bajas', 'no es un id categoria mongo').isMongoId(),
     check('bajas').custom(existeIdBajass),
 
@@ -214,6 +228,9 @@ router.post('/guardarReportes', [
     validarCampos
 ], reportesController.guadarReportes)
 
+router.get('/listar', [
+
+], reportesController.listarReporte)
 
 
 

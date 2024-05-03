@@ -86,7 +86,25 @@ var computa = {
 
     const data = {
       ...body,
-
+      fecha: body.fecha.toUpperCase(),
+      sede: body.sede.toUpperCase(),
+      ubicacion: body.ubicacion.toUpperCase(),
+      marca: body.marca.toUpperCase(),
+      nombre_equipo: body.nombre_equipo.toUpperCase(),
+      sistema_operativo: body.sistema_operativo.toUpperCase(),
+      placa: body.placa.toUpperCase(),
+      disco_duro: body.disco_duro.toUpperCase(),
+      memoria_ram: body.memoria_ram.toUpperCase(),
+      serial: body.serial.toUpperCase(),
+      ip: body.ip.toUpperCase(),
+      usuario: body.usuario.toUpperCase(),
+      clave: body.clave.toUpperCase(),
+      nombre_asignado: body.nombre_asignado.toUpperCase(),
+      cedula: body.cedula.toUpperCase(),
+      fecha_mantenimiento: body.fecha_mantenimiento.toUpperCase(),
+      tecnico: body.tecnico.toUpperCase(),
+      dominio: body.dominio.toUpperCase(),
+      observaciones: body.observaciones.toUpperCase(),
       registrosUros: req.uid
     }
 

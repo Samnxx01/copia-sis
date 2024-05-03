@@ -1,16 +1,16 @@
 import { response } from 'express';
-import Bajasequipo from '../controllers/bajas.js'
+import Bajasequipo from '../models/bajas.js'
 
 
 var bajasEqui = {
 
 
-  listarImpresora: async (req, res = response) => {
+  listarBajas: async (req, res = response) => {
     try {
       // Obtiene todos los registros de la colección
       const query = { estado: true }
 
-      const registrosImpreso = await impresorasss.find(query)
+      const listarBajas = await Bajasequipo.find(query)
 
 
 
@@ -18,7 +18,7 @@ var bajasEqui = {
       // Envía los registros como respuesta en formato JSON
       res.status(200).json({
         msg: 'Listado Exitoso',
-        registrosImpreso,
+        listarBajas,
 
       });
     } catch (error) {
@@ -29,78 +29,26 @@ var bajasEqui = {
     }
   },
 
-  listarImpresoraID: async (req, res = response) => {
-    try {
-      const { id, serial } = req.params;
-
-      // Buscamos el registro por ID y serial
-      const verificarPro = await impresorasss.findOne({ id, serial });
-
-      if (!verificarPro) {
-        return res.status(404).json({ msg: 'Registro no encontrado' });
-      }
-
-      res.status(200).json({
-        msg: 'Impresora por ID y Serial Exitoso',
-        verificarPro,
-      });
-    } catch (error) {
-      console.error('Error en la operación:', error);
-
-      res.status(500).json({
-        error: 'Hubo un error en la operación',
-      });
-    }
-  }
-  ,
-  listarImpresoraIP: async (req, res = response) => {
-    try {
-      const { id, ip } = req.params;
-
-      // Buscamos el registro por ID y serial
-      const verificarPro = await impresorasss.findOne({ id, ip });
-
-      if (!verificarPro) {
-        return res.status(404).json({ msg: 'Registro no encontrado' });
-      }
-
-      res.status(200).json({
-        msg: 'Impresora por ID y ip Exitoso',
-        verificarPro,
-      });
-    } catch (error) {
-      console.error('Error en la operación:', error);
-
-      res.status(500).json({
-        error: 'Hubo un error en la operación',
-      });
-    }
-  },
 
 
-  guadarMunicipio: async (req, res = response) => {
-        
-  
+
+  guadarbajas: async (req, res = response) => {
+
     var params = req.body;
 
-
-
-
-    // Crear una instancia de Regis (si es una clase o función)
-    const registro = new Bajasequipo({
-      
-        municipio: params.municipio.toUpperCase(),
-        nombre_municipio: params.nombre_municipio.toUpperCase(),
-        postal: params.postal
-
+    const nuevoReporte = new Bajasequipo({
+        numero_bajas: params.numero_bajas,
+        tipo_parte: params.tipo_parte,
+        serial_parte: params.serial_parte,
+        diagnostico: params.diagnostico,
     });
 
-    const guardarPais = await registro.save();
+    const guardarReportes = await nuevoReporte.save();
 
     res.status(200).json({
-      msg: 'Registro Completado',
-      guardarPais,
-  });
+        msg: 'Registro Completado',
+        guardarReportes
+    });
 
 },
 

@@ -10,7 +10,8 @@ const ReportesSchema = new Schema({
     },
     numero_caso: {
         type: Number,
-        required: [true, 'El numero de pagina es obligatoria']
+        required: [true, 'El numero de pagina es obligatoria'], 
+        unique: true
     },
     computadores: {
         type: mongoose.Schema.Types.ObjectId,
@@ -37,12 +38,20 @@ const ReportesSchema = new Schema({
         required: [true, 'La ubicacio es obligatoria']
     },
     fecha_instalacion: {
-        type: Number,
+        type: String,
         required: [true, 'El numero de pagina es obligatoria']
+    },
+    extension: {
+        type: Number,
+        required: [true, 'La fecha y hora son obligatorias']
     },
     estado: {
         type: Boolean,
         default: true
+    },
+    equipo_garantia: {
+        type: String,
+        required: [true, 'La fecha y hora son obligatorias']
     },
     bajas: {
         type: mongoose.Schema.Types.ObjectId,

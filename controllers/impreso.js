@@ -86,7 +86,15 @@ var impresor = {
 
     const data = {
       ...body,
-
+      sedes: body.sedes.toUpperCase(),
+      pisos: body.pisos.toUpperCase(),
+      ip: body.ip.toUpperCase(),
+      serial: body.serial.toUpperCase(),
+      mac: body.mac.toUpperCase(),
+      marca: body.marca.toUpperCase(),
+      ubicacion: body.ubicacion.toUpperCase(),
+      contador: body.contador.toUpperCase(),
+      fecha: body.fecha.toUpperCase(),
       registrosUros: req.uid, // Usar uid en lugar de req.registrosUros._id
 
     };

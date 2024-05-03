@@ -5,21 +5,21 @@ import equipos from '../models/reportess-equipos.js'
 var reporteass = {
 
 
-  listarImpresora: async (req, res = response) => {
+  listarReporte: async (req, res = response) => {
     try {
       // Obtiene todos los registros de la colección
       const query = { estado: true }
 
-      const registrosImpreso = await impresorasss.find(query)
-
-
+      const mostrarReportes = await equipos.find(query)
+        .populate('registUros', 'nickname correo telefono rol')
+        .populate('impresoras', 'marca serial contador mac')
+        .populate('computadores', 'ip nombre_asignado cedula usuario');
 
 
       // Envía los registros como respuesta en formato JSON
       res.status(200).json({
         msg: 'Listado Exitoso',
-        registrosImpreso,
-
+        mostrarReportes,
       });
     } catch (error) {
       console.error('Error en la operación:', error);
@@ -79,24 +79,41 @@ var reporteass = {
 
 
   guadarReportes: async (req, res = response) => {
-    const {estado, regisUsu, ...body} =req.body    
-    
-    const data ={
-      ...body,
-      nombre: body.nombre.toUpperCase(),
+    try {
+      // Obtener datos del cuerpo de la solicitud
+      const { fecha, numero_caso, computadores, impresoras, registUros, marca, modelo, serial_parte, fecha_instalacion, extension, estado, equipo_garantia, bajas } = req.body;
 
-      regisUsu: req.registrosUsu._id
+      // Crear un nuevo reporte con los datos proporcionados
+      const nuevoReporte = new equipos({
+        fecha,
+        numero_caso,
+        computadores,
+        impresoras,
+        registUros,
+        marca,
+        modelo,
+        serial_parte,
+        fecha_instalacion,
+        extension,
+        estado,
+        equipo_garantia,
+        bajas
+      });
+
+      // Guardar el nuevo reporte en la base de datos
+      await nuevoReporte.save();
+
+      // Responder al cliente con el reporte creado
+      res.status(201).json({
+        msg: 'Reporte creado exitosamente',
+        reporte: nuevoReporte
+      });
+    } catch (error) {
+      console.error('Error al guardar el reporte:', error);
+      res.status(500).json({
+        error: 'Hubo un error en la operación'
+      });
     }
-
-
-
-    const producto = await new Productosss(data)
-    await producto.save();
-    
-    res.status(201).json({
-      msg: 'Producto creado Exitoso',
-      producto
-    });
   },
 
   modificarImpresora: async (req, res = response) => {
