@@ -49,6 +49,12 @@ const ReportesSchema = new Schema({
         type: Boolean,
         default: true
     },
+    correo_electronico: {
+        type: String,
+    },
+    area: {
+        type: Number,
+    },
     equipo_garantia: {
         type: String,
         required: [true, 'La fecha y hora son obligatorias']

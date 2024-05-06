@@ -20,7 +20,9 @@ import bajasController from '../controllers/bajas.js'
 
 var router = express.Router()
 
+router.get('/listarUsuario', [
 
+], RegisController.listarTecnico)
 //Rutas de registro tecnico 
 router.post('/registro/tecnico', [
 

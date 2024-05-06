@@ -96,6 +96,8 @@ var reporteass = {
         fecha_instalacion,
         extension,
         estado,
+        area,
+        correo_electronico,
         equipo_garantia,
         bajas
       });

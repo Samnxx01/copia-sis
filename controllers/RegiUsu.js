@@ -35,9 +35,8 @@ var registrousu = {
                 error: 'Hubo un error en la operación',
             });
         }
-        
-        
-
+    },
+    
 
         //listar por registro de id usuario
         /*try {
@@ -62,8 +61,6 @@ var registrousu = {
                 error: "Hubo un error en la operación"
             });
         }*/
-        
-},
         listarTecnico: async (req,res) => {
 
 
@@ -71,10 +68,8 @@ var registrousu = {
                 // Obtiene todos los registros de la colección
                 const query = {estado : true}
 
-                const registros = await Regis.find(query)
-                .populate('ciudad', 'nombre_ciudad')
-                .populate('pais', 'nombre_pais');
-                const total = await Regis.countDocuments(query)
+                const registros = await RegistroUross.find(query)
+                const total = await RegistroUross.countDocuments(query)
             
                 // Envía los registros como respuesta en formato JSON
                 res.status(200).json({
