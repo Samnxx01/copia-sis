@@ -28,6 +28,41 @@ var computa = {
       });
     }
   },
+  listarCompuFiltrado: async (req, res = response) => {
+    try {
+        const { nombre_asignado, cedula } = req.query;
+
+        // Construye la consulta para filtrar por nombre asignado y cédula si se proporcionan en la solicitud
+        const query = { estado: true };
+        if (nombre_asignado) query.nombre_asignado = nombre_asignado;
+        if (cedula) query.cedula = cedula;
+
+        // Agrupa los registros por nombre asignado y cédula
+        const listaComputadores = await computadores.aggregate([
+            { $match: query },
+            {
+                $group: {
+                    _id: { nombre_asignado: "$nombre_asignado", cedula: "$cedula" },
+                    // Muestra solo el primer registro de cada grupo
+                    registro: { $first: "$$ROOT" }
+                }
+            },
+            { $replaceRoot: { newRoot: "$registro" } }
+        ]);
+
+        // Envía los registros como respuesta en formato JSON
+        res.status(200).json({
+            msg: 'Listado Exitoso',
+            listarCompu: listaComputadores,
+        });
+    } catch (error) {
+        console.error('Error en la operación:', error);
+        res.status(500).json({
+            error: 'Hubo un error en la operación',
+        });
+    }
+},
+
 
   listarComputadoresID: async (req, res = response) => {
     try {

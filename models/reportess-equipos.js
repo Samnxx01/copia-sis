@@ -25,6 +25,10 @@ const ReportesSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RegistUros'
     },
+    tipo_equipo: {
+        type: String,
+        required: [true, 'La mac es obligatoria']
+    },
     marca: {
         type: String,
         required: [true, 'La mac es obligatoria']
