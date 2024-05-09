@@ -224,7 +224,7 @@ router.post('/guardarReportes', [
     check('marca', 'La marca es obligatorio').not().isEmpty(),
     check('modelo', 'el modelo es obligatorio').not().isEmpty(),
     check('serial_parte', 'el serial de la parte obligatorio').not().isEmpty(),
-    check('tipo_parte', 'La parte es obligatorio').not().isEmpty(),
+    check('tipo_equipo', 'La parte es obligatorio').not().isEmpty(),
     check('fecha_instalacion', 'la fecha de instalacion es obligatorio').not().isEmpty(),
     check('equipo_garantia', 'la garantia de instalacion es obligatorio').not().isEmpty(),
     check('bajas', 'no es un id categoria mongo').isMongoId(),

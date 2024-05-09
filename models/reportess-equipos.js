@@ -27,7 +27,7 @@ const ReportesSchema = new Schema({
     },
     tipo_equipo: {
         type: String,
-        required: [true, 'La mac es obligatoria']
+        required: [true, 'El tipo es obligatoria']
     },
     marca: {
         type: String,
@@ -57,7 +57,7 @@ const ReportesSchema = new Schema({
         type: String,
     },
     area: {
-        type: Number,
+        type: String,
     },
     equipo_garantia: {
         type: String,

@@ -81,7 +81,7 @@ var reporteass = {
   guadarReportes: async (req, res = response) => {
     try {
       // Obtener datos del cuerpo de la solicitud
-      const { fecha, numero_caso, computadores, impresoras, registUros, marca, modelo, serial_parte, fecha_instalacion, extension, estado, equipo_garantia, bajas } = req.body;
+      const { fecha, numero_caso, computadores, impresoras, registUros, marca, modelo, serial_parte, fecha_instalacion, extension,correo_electronico, area, tipo_equipo, estado, equipo_garantia, bajas } = req.body;
 
       // Crear un nuevo reporte con los datos proporcionados
       const nuevoReporte = new equipos({
@@ -97,6 +97,7 @@ var reporteass = {
         extension,
         estado,
         area,
+        tipo_equipo,
         correo_electronico,
         equipo_garantia,
         bajas

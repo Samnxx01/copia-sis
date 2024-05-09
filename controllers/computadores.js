@@ -66,27 +66,37 @@ var computa = {
 
   listarComputadoresID: async (req, res = response) => {
     try {
-      const { id, serial } = req.params;
+      // Obtener parámetros de consulta
+      const { serial, mac, ip, marca, ubicacion, sedes, piso } = req.query;
 
-      // Buscamos el registro por ID y serial
-      const verificarPro = await computadores.findOne({ id, serial });
+      // Crear objeto de filtros basado en los parámetros de consulta
+      const filtros = {};
+      if (serial) filtros.serial = serial;
+      if (mac) filtros.mac = mac;
+      if (ip) filtros.ip = ip;
+      if (marca) filtros.marca = marca;
+      if (ubicacion) filtros.ubicacion = ubicacion;
+      if (sedes) filtros.sedes = sedes;
+      if (piso) filtros.piso = piso;
 
-      if (!verificarPro) {
-        return res.status(404).json({ msg: 'Registro no encontrado' });
+      // Buscar registros en la base de datos que coincidan con los filtros
+      const computadoress = await computadores.find(filtros);
+
+      if (computadoress.length === 0) {
+          return res.status(404).json({ msg: 'No se encontraron registros de computadores' });
       }
 
       res.status(200).json({
-        msg: 'Impresora por ID y Serial Exitoso',
-        verificarPro,
+          msg: 'Búsqueda de computadores exitosa',
+          computadoress,
       });
-    } catch (error) {
+  } catch (error) {
       console.error('Error en la operación:', error);
-
       res.status(500).json({
-        error: 'Hubo un error en la operación',
+          error: 'Hubo un error en la operación',
       });
-    }
   }
+}
   ,
   listarComputadoresIP: async (req, res = response) => {
     try {

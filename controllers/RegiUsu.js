@@ -153,6 +153,7 @@ var registrousu = {
                 correo: params.correo,
                 password: params.password,
                 telefono: params.telefono,
+                extension: params.extension,
                 rol: 'TECNICO',
 
             });

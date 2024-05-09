@@ -26,6 +26,10 @@ const RegistUrosSchema = new Schema({
         type: Number,
         required: [true, 'El telefono es obligatoria']
     },
+    extension: {
+        type: Number,
+        required: [true, 'La extension es obligatoria']
+    },
     img: {
         type: String,
     },
