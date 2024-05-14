@@ -13,59 +13,104 @@ const ReportesSchema = new Schema({
         required: [true, 'El numero de pagina es obligatoria'], 
         unique: true
     },
-    computadores: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Compu'
+    nombre_usuario: {
+        type: String,
+        required: [true, 'el nombre son obligatorias']
     },
-    impresoras: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Impresoras'
+    cedula_usuario: {
+        type: String,
+        required: [true, 'el nombre son obligatorias']
     },
-    registUros: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'RegistUros'
+    correo_electronico_usuario: {
+        type: String,
+        required: [true, 'El correo es obligatoria'], 
+    },
+    area: {
+        type: String,
+    },
+    extension_usua: {
+        type: Number,
+        required: [true, 'La fecha y hora son obligatorias']
+    },
+    nombre_ingeniero: {
+        type: String,
+        required: [true, 'el nombre son obligatorias']
+    },
+    correo_ing: {
+        type: String,
+        required: [true, 'el correo del ing son obligatorias']
+    },
+    extension_ing: {
+        type: String,
+        required: [true, 'La extension son obligatorias']
+    },
+    celular_ing: {
+        type: Number,
+        required: [true, 'el numero son obligatorias']
+    },
+    marca_dispositivos: {
+        type: String,
+        required: [true, 'La marca de impresora o computadores son obligatorias']
+    },
+    serial_dispositivo: {
+        type: String,
+        required: [true, 'el serial son obligatorias']
+    },
+    mac_dispositivos: {
+        type: String,
+        required: [true, 'La mac son obligatorias']
     },
     tipo_equipo: {
         type: String,
         required: [true, 'El tipo es obligatoria']
     },
-    marca: {
+    serial_equipo_baja: {
         type: String,
-        required: [true, 'La mac es obligatoria']
+        required: [true, 'El serial equipo baja de baja obligatoria']
     },
-    modelo: {
+    marca_instalado: {
         type: String,
         required: [true, 'La marca es obligatoria']
     },
+    modelo_instalacion: {
+        type: String,
+        required: [true, 'La modelo instalacion es obligatoria']
+    },
     serial_parte: {
         type: String,
-        required: [true, 'La ubicacio es obligatoria']
+        required: [true, 'La serial parte es obligatoria']
     },
     fecha_instalacion: {
         type: String,
-        required: [true, 'El numero de pagina es obligatoria']
-    },
-    extension: {
-        type: Number,
-        required: [true, 'La fecha y hora son obligatorias']
+        required: [true, 'la fecha es obligatoria']
     },
     estado: {
         type: Boolean,
         default: true
     },
-    correo_electronico: {
-        type: String,
-    },
-    area: {
-        type: String,
-    },
     equipo_garantia: {
         type: String,
-        required: [true, 'La fecha y hora son obligatorias']
+        required: [true, 'El equipo son obligatorias']
     },
-    bajas: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'BajasEquipo'
+    reporte_garantia: {
+        type: String,
+        required: [true, 'El reporte son obligatorias']
+    },
+    serial_garantia: {
+        type: String,
+        required: [true, 'EL serial son obligatorias']
+    },
+    diagnostico: {
+        type: String,
+        required: [true, 'El diagnostico es necesario']
+    },
+    coordinador_area: {
+        type: String,
+        required: [true, 'La firma es obligatoria']
+    },
+    activos_fijos: {
+        type: String,
+        required: [true, 'La firma es obligatoria']
     },
 });
 

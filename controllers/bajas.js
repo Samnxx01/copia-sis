@@ -10,15 +10,13 @@ var bajasEqui = {
       // Obtiene todos los registros de la colección
       const query = { estado: true }
 
-      const listarBajas = await Bajasequipo.find(query)
-
-
+      const listarBajass = await Bajasequipo.find(query)
 
 
       // Envía los registros como respuesta en formato JSON
       res.status(200).json({
         msg: 'Listado Exitoso',
-        listarBajas,
+        listarBajass,
 
       });
     } catch (error) {

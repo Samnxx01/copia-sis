@@ -81,26 +81,62 @@ var reporteass = {
   guadarReportes: async (req, res = response) => {
     try {
       // Obtener datos del cuerpo de la solicitud
-      const { fecha, numero_caso, computadores, impresoras, registUros, marca, modelo, serial_parte, fecha_instalacion, extension,correo_electronico, area, tipo_equipo, estado, equipo_garantia, bajas } = req.body;
+      const { fecha,
+        numero_caso,
+        nombre_usuario,
+        cedula_usuario,
+        correo_electronico_usuario,
+        area,
+        extension_usua,
+        nombre_ingeniero,
+        correo_ing,
+        extension_ing,
+        celular_ing,
+        marca_dispositivos,
+        serial_dispositivo,
+        mac_dispositivos,
+        tipo_equipo,
+        serial_equipo_baja,
+        marca_instalado,
+        modelo_instalacion,
+        serial_parte,
+        fecha_instalacion,
+        equipo_garantia,
+        reporte_garantia,
+        serial_garantia,
+        diagnostico,
+        activos_fijos,
+        coordinador_area
+      } = req.body;
 
       // Crear un nuevo reporte con los datos proporcionados
       const nuevoReporte = new equipos({
         fecha,
         numero_caso,
-        computadores,
-        impresoras,
-        registUros,
-        marca,
-        modelo,
+        nombre_usuario,
+        cedula_usuario,
+        correo_electronico_usuario,
+        area,
+        extension_usua,
+        nombre_ingeniero,
+        correo_ing,
+        extension_ing,
+        celular_ing,
+        marca_dispositivos,
+        serial_dispositivo,
+        mac_dispositivos,
+        tipo_equipo,
+        serial_equipo_baja,
+        marca_instalado,
+        modelo_instalacion,
         serial_parte,
         fecha_instalacion,
-        extension,
-        estado,
-        area,
-        tipo_equipo,
-        correo_electronico,
         equipo_garantia,
-        bajas
+        reporte_garantia,
+        serial_garantia,
+        diagnostico,
+        activos_fijos,
+        coordinador_area
       });
 
       // Guardar el nuevo reporte en la base de datos

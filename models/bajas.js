@@ -10,15 +10,19 @@ const BajasSchema = new Schema({
         },
         tipo_parte: {
             type: String,
-            required: [true, 'La marca es obligatoria']
+            required: [true, 'El tipo_parte es obligatoria']
         },
         serial_parte: {
             type: String,
-            required: [true, 'La marca es obligatoria']
+            required: [true, 'El serial_parte es obligatoria']
         },
         diagnostico: {
             type: String,
-            required: [true, 'La marca es obligatoria']
+            required: [true, 'El diagnostico es obligatoria']
+        },
+        estado: {
+            type: Boolean,
+            default: true
         },
 });
 
