@@ -23,6 +23,15 @@ router.put('/:coleccion/:id',[
     check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes'])),
     validarCampos
 ], subir.actualizarImg)
+
+ router.get('/img/:coleccion/:id', [
+    check('id', 'El id debe ser mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes'])),
+    validarCampos
+ ], subir.ListarArchivo)
+
+
+
 /*
 router.put('/admin/:coleccion/:id',[
     validarJWT,
