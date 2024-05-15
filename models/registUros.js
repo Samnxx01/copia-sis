@@ -52,6 +52,9 @@ const RegistUrosSchema = new Schema({
         type: Boolean,
         default: false
     },
+    img: {
+        type: String,
+    },
 });
 
 

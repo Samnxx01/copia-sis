@@ -66,8 +66,7 @@ router.post('/login/tecnico', [
 
 //api de subir archivo 
 
-router.post('/subirarchivos', subir.cargarArchivo)
-router.post('/subirarchivosuros', subir.cargarArchivoDB)
+
 
 
 //api de reportes

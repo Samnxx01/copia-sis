@@ -19,6 +19,7 @@ import nodemailer  from 'nodemailer'
 import factura from './routes/factura.js'
 import paisyciudad from './routes/pais-ciudad.js'
 import inventario from './routes/inventario.js'
+import documentos from './routes/subir-documentos.js'
 
 //import db from './database/db.js'
 
@@ -69,6 +70,7 @@ app.use('/api/carrito', carrito)
 app.use('/api/perfil', perfil)
 app.use('/api/seleccion', paisyciudad)
 app.use('/api/inventario', inventario)
+app.use('/api/documentos', documentos)
 
 
 

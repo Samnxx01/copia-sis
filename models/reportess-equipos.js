@@ -112,6 +112,9 @@ const ReportesSchema = new Schema({
         type: String,
         required: [true, 'La firma es obligatoria']
     },
+    img: {
+        type: String,
+    },
 });
 
 export default mongoose.model('Reportes', ReportesSchema);

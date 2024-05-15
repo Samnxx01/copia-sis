@@ -11,9 +11,7 @@ var reporteass = {
       const query = { estado: true }
 
       const mostrarReportes = await equipos.find(query)
-        .populate('registUros', 'nickname correo telefono rol')
-        .populate('impresoras', 'marca serial contador mac')
-        .populate('computadores', 'ip nombre_asignado cedula usuario');
+
 
 
       // Envía los registros como respuesta en formato JSON
@@ -106,7 +104,8 @@ var reporteass = {
         serial_garantia,
         diagnostico,
         activos_fijos,
-        coordinador_area
+        coordinador_area,
+        img
       } = req.body;
 
       // Crear un nuevo reporte con los datos proporcionados
@@ -136,7 +135,8 @@ var reporteass = {
         serial_garantia,
         diagnostico,
         activos_fijos,
-        coordinador_area
+        coordinador_area,
+        img
       });
 
       // Guardar el nuevo reporte en la base de datos

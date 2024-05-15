@@ -61,6 +61,9 @@ const CompuSchema = new Schema({
             type: String,
             required: [true, 'La clave es obligatoria']
         },
+        img: {
+            type: String,
+        },
         nombre_asignado: {
             type: String,
             required: [true, 'El nombre asginado es obligatoria']
@@ -75,7 +78,7 @@ const CompuSchema = new Schema({
         },
         tecnico: {
             type: String,
-            required: [true, 'El nombre asginado es obligatoria']
+            required: [false, 'El nombre asginado es obligatoria']
         },
         dominio: {
             type: String,
@@ -87,11 +90,9 @@ const CompuSchema = new Schema({
         },
         observaciones: {
             type: String,
-            required: [true, 'La observacion es obligatoria']
+            required: [false, 'La observacion es obligatoria']
         },
-       /* img: {
-            type: String,
-        },*/
+
 
 });
 
