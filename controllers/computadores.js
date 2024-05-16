@@ -28,76 +28,46 @@ var computa = {
       });
     }
   },
-  listarCompuFiltrado: async (req, res = response) => {
-    try {
-        const { nombre_asignado, cedula } = req.query;
-
-        // Construye la consulta para filtrar por nombre asignado y cédula si se proporcionan en la solicitud
-        const query = { estado: true };
-        if (nombre_asignado) query.nombre_asignado = nombre_asignado;
-        if (cedula) query.cedula = cedula;
-
-        // Agrupa los registros por nombre asignado y cédula
-        const listaComputadores = await computadores.aggregate([
-            { $match: query },
-            {
-                $group: {
-                    _id: { nombre_asignado: "$nombre_asignado", cedula: "$cedula" },
-                    // Muestra solo el primer registro de cada grupo
-                    registro: { $first: "$$ROOT" }
-                }
-            },
-            { $replaceRoot: { newRoot: "$registro" } }
-        ]);
-
-        // Envía los registros como respuesta en formato JSON
-        res.status(200).json({
-            msg: 'Listado Exitoso',
-            listarCompu: listaComputadores,
-        });
-    } catch (error) {
-        console.error('Error en la operación:', error);
-        res.status(500).json({
-            error: 'Hubo un error en la operación',
-        });
-    }
-},
 
 
   listarComputadoresID: async (req, res = response) => {
     try {
       // Obtener parámetros de consulta
-      const { serial, mac, ip, marca, ubicacion, sedes, piso } = req.query;
+      const { fecha, serial, area,  mac, ip, marca, ubicacion, cedula, placa, sede } = req.query;
 
       // Crear objeto de filtros basado en los parámetros de consulta
       const filtros = {};
+
+      if (fecha) filtros.fecha = fecha;
       if (serial) filtros.serial = serial;
       if (mac) filtros.mac = mac;
+      if (area) filtros.area = area;
       if (ip) filtros.ip = ip;
+      if (placa) filtros.placa = placa;
       if (marca) filtros.marca = marca;
       if (ubicacion) filtros.ubicacion = ubicacion;
-      if (sedes) filtros.sedes = sedes;
-      if (piso) filtros.piso = piso;
+      if (cedula) filtros.cedula = cedula;
+      if (sede) filtros.sede = sede;
 
       // Buscar registros en la base de datos que coincidan con los filtros
-      const computadoress = await computadores.find(filtros);
+      const compuVeri = await computadores.findOne(filtros);
 
-      if (computadoress.length === 0) {
-          return res.status(404).json({ msg: 'No se encontraron registros de computadores' });
+  
+      if (!compuVeri) {
+        return res.status(404).json({ msg: 'Registro no encontrado' });
       }
-
+  
       res.status(200).json({
-          msg: 'Búsqueda de computadores exitosa',
-          computadoress,
+        msg: 'Impresora por ID y otros parámetros exitoso',
+        compuVeri,
       });
-  } catch (error) {
+    } catch (error) {
       console.error('Error en la operación:', error);
       res.status(500).json({
-          error: 'Hubo un error en la operación',
+        error: 'Hubo un error en la operación',
       });
   }
-}
-  ,
+},
   listarComputadoresIP: async (req, res = response) => {
     try {
       const { id, ip } = req.params;

@@ -110,9 +110,6 @@ router.get('/listarcompu', [
 
 ], CompuController.listarCompu)
 
-router.get('/listarcompufiltrado', [
-
-], CompuController.listarCompuFiltrado)
 
 
 router.post('/guardarimpresoras', [

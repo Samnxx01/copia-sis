@@ -31,28 +31,38 @@ var impresor = {
 
   listarImpresoraID: async (req, res = response) => {
     try {
-      const { id, serial } = req.params;
-
-      // Buscamos el registro por ID y serial
-      const verificarPro = await impresorasss.findOne({ id, serial });
-
+      const { id, serial, ip, sedes, mac, pisos, ubicacion } = req.query; // Usar req.query para obtener los parámetros de la consulta
+  
+      // Construir el filtro para la búsqueda
+      const filtro = {};
+  
+      if (id) filtro._id = id;
+      if (serial) filtro.serial = serial;
+      if (ip) filtro.ip = ip;
+      if (sedes) filtro.sedes = sedes;
+      if (mac) filtro.mac = mac;
+      if (pisos) filtro.pisos = pisos;
+      if (ubicacion) filtro.pisos = pisos;
+  
+      // Buscar el registro que coincida con el filtro
+      const verificarPro = await impresorasss.findOne(filtro);
+  
       if (!verificarPro) {
         return res.status(404).json({ msg: 'Registro no encontrado' });
       }
-
+  
       res.status(200).json({
-        msg: 'Impresora por ID y Serial Exitoso',
+        msg: 'Impresora por ID y otros parámetros exitoso',
         verificarPro,
       });
     } catch (error) {
       console.error('Error en la operación:', error);
-
       res.status(500).json({
         error: 'Hubo un error en la operación',
       });
     }
-  }
-  ,
+  },
+  
   listarImpresoraIP: async (req, res = response) => {
     try {
       const { id, ip } = req.params;

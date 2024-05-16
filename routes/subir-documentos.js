@@ -16,6 +16,8 @@ var router = express.Router()
 
 //esta rutas son los filtros de cualquier busqueda, se los dejare parte admin y usuario
 router.post('/subirarchivos', subir.cargarArchivo)
+router.post('/subirarchivosDB', subir.cargarArchivoDB)
+
 
 router.put('/:coleccion/:id',[
     validarArchivosSubir,
@@ -26,9 +28,28 @@ router.put('/:coleccion/:id',[
 
  router.get('/img/:coleccion/:id', [
     check('id', 'El id debe ser mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes','ArchivosSubidos'])),
+    validarCampos
+ ], subir.ListarArchivo)
+
+ router.get('/hospital/:coleccion/:id', [
+    check('id', 'El id debe ser mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c,['ArchivosSubidos'])),
+    validarCampos
+ ], subir.ListarArchivo)
+
+ router.get('/pdf/:coleccion/:id', [
+    check('id', 'El id debe ser mongo').isMongoId(),
     check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes'])),
     validarCampos
  ], subir.ListarArchivo)
+
+ router.get('/excel/:coleccion/:id', [
+    check('id', 'El id debe ser mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes'])),
+    validarCampos
+ ], subir.ListarArchivo)
+
 
 
 
