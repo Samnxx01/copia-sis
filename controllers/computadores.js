@@ -1,6 +1,6 @@
 import { response } from 'express';
 import computadores from '../models/computadores.js';
-
+import subirArchivos from '../helpers/subir-archivo-uros.js';
 
 var computa = {
 
@@ -33,7 +33,7 @@ var computa = {
   listarComputadoresID: async (req, res = response) => {
     try {
       // Obtener parámetros de consulta
-      const { fecha, serial, area,  mac, ip, marca, ubicacion, cedula, placa, sede } = req.query;
+      const { fecha, serial, area, mac, ip, marca, ubicacion, cedula, placa, sede } = req.query;
 
       // Crear objeto de filtros basado en los parámetros de consulta
       const filtros = {};
@@ -52,11 +52,11 @@ var computa = {
       // Buscar registros en la base de datos que coincidan con los filtros
       const compuVeri = await computadores.findOne(filtros);
 
-  
+
       if (!compuVeri) {
         return res.status(404).json({ msg: 'Registro no encontrado' });
       }
-  
+
       res.status(200).json({
         msg: 'Impresora por ID y otros parámetros exitoso',
         compuVeri,
@@ -66,8 +66,8 @@ var computa = {
       res.status(500).json({
         error: 'Hubo un error en la operación',
       });
-  }
-},
+    }
+  },
   listarComputadoresIP: async (req, res = response) => {
     try {
       const { id, ip } = req.params;
@@ -95,9 +95,7 @@ var computa = {
 
 
   guadarComputador: async (req, res = response) => {
-    const { estado, regisUsu, ...body } = req.body
-
-
+    const { estado, regisUsu, ...body } = req.body;
 
     const data = {
       ...body,
@@ -120,18 +118,25 @@ var computa = {
       tecnico: body.tecnico.toUpperCase(),
       dominio: body.dominio.toUpperCase(),
       observaciones: body.observaciones.toUpperCase(),
-      registrosUros: req.uid
+      registrosUros: req.uid,
+    };
+  
+    if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
+      return res.status(400).send('No hay archivo para subir');
     }
-
-
-
-    const computadors = await new computadores(data)
-    await computadors.save();
-
-    res.status(201).json({
-      msg: 'Registro Exitoso',
-      computadors
-    });
+  
+    try {
+      const archivoSubido = await subirArchivos(req.files, undefined, 'prueba');
+      data.img = archivoSubido; // Añadir el nombre del archivo subido a la data
+  
+      const nuevoComputador = new computadores(data);
+      const computadorGuardado = await nuevoComputador.save();
+  
+      res.json({ computadorGuardado });
+    } catch (error) {
+      console.error('Error al guardar el archivo:', error);
+      res.status(500).json({ error: 'Error al guardar el archivo' });
+    }
   },
 
   modificarCompu: async (req, res = response) => {

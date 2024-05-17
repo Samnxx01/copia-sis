@@ -14,6 +14,7 @@ import subir from '../controllers/uploads-uros.js'
 import { esTecnico } from '../middlewares/validar-roles.js';
 import reportesController from '../controllers/reportes.js'
 import bajasController from '../controllers/bajas.js'
+import validarArchivosSubirUros from '../middlewares/validar-archivo-subidoUros.js';
 //rutas para computadores 
 
 
@@ -49,6 +50,22 @@ router.post('/registro/coordinador', [
     check('rol',).custom(esRoleValidTecnico),
     validarCampos
 ], RegisController.guardarCoordinador)
+
+    //ruta para imagenes
+    router.post('/subirarchivosDB', subir.cargarArchivoDB)
+    router.get('/img/:coleccion/:id', [
+        check('id', 'El id debe ser mongo').isMongoId(),
+        check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes','ArchivosSubidos'])),
+        validarCampos
+    ], subir.ListarArchivo)
+
+
+    router.put('/:coleccion/:id',[
+        validarArchivosSubirUros,
+        check('id', 'El id debe ser mongo').isMongoId(),
+        check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes'])),
+        validarCampos
+    ], subir.actualizarImg)
 
 //Rutas de login
 router.post('/login/tecnico', [

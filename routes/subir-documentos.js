@@ -36,7 +36,9 @@ router.put('/:coleccion/:id',[
     check('id', 'El id debe ser mongo').isMongoId(),
     check('coleccion').custom(c => coleccionesPermitidas(c,['ArchivosSubidos'])),
     validarCampos
- ], subir.ListarArchivo)
+ ], subir.ListarArchivoDB)
+
+ router.get('/listarImg', subir.listar)
 
  router.get('/pdf/:coleccion/:id', [
     check('id', 'El id debe ser mongo').isMongoId(),

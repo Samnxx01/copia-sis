@@ -9,6 +9,7 @@ import registUrosImg from '../models/registUros.js';
 import subirArchivos from '../helpers/subir-archivo-uros.js';
 import archivosDb from '../models/archivos-subidos.js'
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -45,6 +46,8 @@ var archivosss = {
         return res.status(500).json({ msg: 'Se me olvidó validar esto' });
     }
 
+    
+
 
     //limpiar archivos subidos
     if (subidaImg.img) {
@@ -57,50 +60,71 @@ var archivosss = {
     const pathImagen = path.join(__dirname, '../assets/no-image.jpg')
     res.sendFile(pathImagen)
   },
+
+  listar: async (req, res = response) => {
+    try {
+      // Obtiene todos los registros de la colección
+      
+      const ListarImagenes = await archivosDb.find()
+
+      // Envía los registros como respuesta en formato JSON
+      res.status(200).json({
+        msg: 'Listado Exitoso',
+        ListarImagenes,
+      });
+    } catch (error) {
+      console.error('Error en la operación:', error);
+      res.status(500).json({
+        error: 'Hubo un error en la operación',
+      });
+ 
+    }
+  },
+
 
   ListarArchivoDB: async (req, res = response) => {
     const { id, coleccion } = req.params;
     let subidaImg;
-
+  
     switch (coleccion) {
-      case 'registUros':
-        subidaImg = await registUrosImg.findById(id);
-        if (!subidaImg) {
-          return res.status(400).json({ msg: `No existe el usuario con el id ${id}` });
-        }
-        break;
-
-      case 'compus':
-        subidaImg = await computadoresImg.findById(id);
-        if (!subidaImg) {
-          return res.status(400).json({ msg: `No existe el computador con el id ${id}` });
-        }
-        break;
-
-      case 'reportes':
-        subidaImg = await reportesImg.findById(id);
-        if (!subidaImg) {
-          return res.status(400).json({ msg: `No existe el reporte con el id ${id}` });
-        }
-        break;
-
-      default:
-        return res.status(500).json({ msg: 'Se me olvidó validar esto' });
+        case 'registUros':
+            subidaImg = await registUrosImg.findById(id);
+            if (!subidaImg) {
+                return res.status(400).json({ msg: `No existe el usuario con el id ${id}` });
+            }
+            break;
+  
+        case 'compus':
+            subidaImg = await computadoresImg.findById(id);
+            if (!subidaImg) {
+                return res.status(400).json({ msg: `No existe el computador con el id ${id}` });
+            }
+            break;
+  
+        case 'ArchivosSubidos':
+            subidaImg = await archivosDb.findById(id);
+            if (!subidaImg) {
+                return res.status(400).json({ msg: `No existe el reporte con el id ${id}` });
+            }
+            break;
+  
+        default:
+            return res.status(500).json({ msg: 'Se me olvidó validar esto' });
     }
-
-
-    //limpiar archivos subidos
+  
+    // Construir la ruta del archivo
     if (subidaImg.img) {
-      const pathImagen = path.join(__dirname, '../db-uros', coleccion, subidaImg.img)
-      if (fs.existsSync(pathImagen)) {
-        return res.sendFile(pathImagen)
-      }
-      res.json({ msg: 'falta la imagen' })
+        const pathImagen = path.join(__dirname, '../db-uros', 'prueba', subidaImg.img);
+        if (fs.existsSync(pathImagen)) {
+            return res.sendFile(pathImagen);
+        } else {
+            return res.sendFile(path.join(__dirname, '../assets/no-image.jpg'));
+        }
     }
-    const pathImagen = path.join(__dirname, '../assets/no-image.jpg')
-    res.sendFile(pathImagen)
-  },
-
+  
+    return res.sendFile(path.join(__dirname, '../assets/no-image.jpg'));
+},
+  
 
 
 
@@ -117,7 +141,7 @@ var archivosss = {
     //subidas de archivos
     try {
 
-      const Archivosubido = await subirArchivos(req.files, undefined, 'prueba')
+      const Archivosubido = await subirArchivos(req.files, undefined, 'guardar')
       res.json({ Archivosubido })
     } catch (msg) {
       res.status(400).json({ msg })
@@ -126,38 +150,28 @@ var archivosss = {
 
 
   cargarArchivoDB: async (req, res = response) => {
-
-
     if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
-      res.status(400).send('No hay archivo para subir');
-      return;
+        return res.status(400).send('No hay archivo para subir');
     }
 
-
-    //subidas de archivos
     try {
-      const archivoSubido = req.files.archivo;
-      const { name, mimetype, size } = archivoSubido;
+        // Subir el archivo y obtener el nombre temporal
+        const archivoSubido = await subirArchivos(req.files, undefined, 'prueba');
 
-      // Guardar el archivo subido en la base de datos
-      const nuevoArchivo = new archivosDb({
-        nombre: name,
-        path: archivoSubido.tempFilePath, // O el camino adecuado a tu archivo subido
-        mimetype: mimetype,
-        size: size
-      });
+        // Guardar la información del archivo en la base de datos
+        const nuevoArchivo = new archivosDb({
+            img: archivoSubido // Guardar el nombre único del archivo en el campo img
+        });
 
-      // Guardar el nuevo archivo en la base de datos
-      const archivoGuardado = await nuevoArchivo.save();
-      const Archivosubido = await subirArchivos(req.files, undefined, 'prueba')
+        const archivoGuardado = await nuevoArchivo.save();
 
-      res.json({ archivoGuardado, Archivosubido });
+        res.json({ archivoGuardado, archivoSubido });
     } catch (error) {
-      res.status(400).json({ error })
-      console.error('Error al guardar el archivo:', error);
-      res.status(500).json({ error: 'Error al guardar el archivo' });
+        console.error('Error al guardar el archivo:', error);
+        res.status(500).json({ error: 'Error al guardar el archivo' });
     }
-  },
+},
+
 
 
   actualizarImg: async (req, res = response) => {
@@ -185,6 +199,13 @@ var archivosss = {
           return res.status(400).json({ msg: `No existe el reporte con el id ${id}` });
         }
         break;
+
+        case 'ArchivosSubidos':
+          subidaImg = await archivosDb.findById(id);
+          if (!subidaImg) {
+            return res.status(400).json({ msg: `No existe el reporte con el id ${id}` });
+          }
+          break;
 
       default:
         return res.status(500).json({ msg: 'Se me olvidó validar esto' });

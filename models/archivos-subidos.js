@@ -4,21 +4,9 @@ const Schema = mongoose.Schema;
 
 const ArchivosSubidosSchema = new Schema({
 
-    nombre: {
+    img: {
         type: String,
         
-      },
-      path: {
-        type: String,
-        
-      },
-      mimetype: {
-        type: String,
-        required: true,
-      },
-      size: {
-        type: Number,
-        required: true,
       },
 });
 
