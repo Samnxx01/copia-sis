@@ -30,7 +30,8 @@ const CompuSchema = new Schema({
         },
         placa: {
             type: String,
-            required: [true, 'La placa es obligatoria']
+            required: [true, 'La placa es obligatoria'],
+            unique: true
         },
         disco_duro: {
             type: String,
