@@ -1,5 +1,6 @@
 import { response } from 'express';
 import equipos from '../models/reportess-equipos.js'
+import subirArchivos from '../helpers/subir-archivo-uros.js';
 
 
 var reporteass = {
@@ -77,83 +78,41 @@ var reporteass = {
 
 
   guadarReportes: async (req, res = response) => {
+    const { estado,registUros, ...body } = req.body;
+
+    const data = {
+      ...body,
+      fecha: body.fecha.toUpperCase(),
+      nombre_usuario: body.nombre_usuario.toUpperCase(),
+      correo_electronico_usuario: body.correo_electronico_usuario.toUpperCase(),
+      correo_ing: body.correo_ing.toUpperCase(),
+      marca_instalado: body.marca_instalado.toUpperCase(),
+      modelo_instalacion: body.modelo_instalacion.toUpperCase(),
+      serial_parte: body.serial_parte.toUpperCase(),
+      diagnostico: body.diagnostico.toUpperCase(),
+      coordinador_area: body.coordinador_area.toUpperCase(),
+      activos_fijos: body.activos_fijos.toUpperCase(),
+      registrosUros: req.uid,
+    };
+  
+    if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
+      return res.status(400).send('No hay archivo para subir');
+    }
+  
     try {
-      // Obtener datos del cuerpo de la solicitud
-      const { fecha,
-        numero_caso,
-        nombre_usuario,
-        cedula_usuario,
-        correo_electronico_usuario,
-        area,
-        extension_usua,
-        nombre_ingeniero,
-        correo_ing,
-        extension_ing,
-        celular_ing,
-        marca_dispositivos,
-        serial_dispositivo,
-        mac_dispositivos,
-        tipo_equipo,
-        serial_equipo_baja,
-        marca_instalado,
-        modelo_instalacion,
-        serial_parte,
-        fecha_instalacion,
-        equipo_garantia,
-        reporte_garantia,
-        serial_garantia,
-        diagnostico,
-        activos_fijos,
-        coordinador_area,
-        img
-      } = req.body;
-
-      // Crear un nuevo reporte con los datos proporcionados
-      const nuevoReporte = new equipos({
-        fecha,
-        numero_caso,
-        nombre_usuario,
-        cedula_usuario,
-        correo_electronico_usuario,
-        area,
-        extension_usua,
-        nombre_ingeniero,
-        correo_ing,
-        extension_ing,
-        celular_ing,
-        marca_dispositivos,
-        serial_dispositivo,
-        mac_dispositivos,
-        tipo_equipo,
-        serial_equipo_baja,
-        marca_instalado,
-        modelo_instalacion,
-        serial_parte,
-        fecha_instalacion,
-        equipo_garantia,
-        reporte_garantia,
-        serial_garantia,
-        diagnostico,
-        activos_fijos,
-        coordinador_area,
-        img
-      });
-
-      // Guardar el nuevo reporte en la base de datos
-      await nuevoReporte.save();
-
-      // Responder al cliente con el reporte creado
-      res.status(201).json({
-        msg: 'Reporte creado exitosamente',
-        reporte: nuevoReporte
-      });
+      const archivoSubido = await subirArchivos(req.files, undefined, 'prueba');
+      data.img = archivoSubido; // Añadir el nombre del archivo subido a la data
+  
+      const nuevoComputador = new equipos(data);
+      const computadorGuardado = await nuevoComputador.save();
+  
+      res.json({ computadorGuardado });
     } catch (error) {
-      console.error('Error al guardar el reporte:', error);
-      res.status(500).json({
-        error: 'Hubo un error en la operación'
-      });
+      console.error('Error al guardar el archivo:', error);
+      res.status(500).json({ error: 'Error al guardar el archivo' });
     }
   },
+  
 
   modificarImpresora: async (req, res = response) => {
     const { id } = req.params

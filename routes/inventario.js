@@ -168,6 +168,7 @@ router.post('/guardarComputador', [
     check('tecnico', 'la fecha es obligatorio').not().isEmpty(),
     check('observaciones', 'la observacion es obligatorio').not().isEmpty(),
     //check('categoria', 'no es un id mongo').isMongoId(),
+    validarArchivosSubirUros,
     validarCampos
 
 ], CompuController.guadarComputador)
