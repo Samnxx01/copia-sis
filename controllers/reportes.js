@@ -27,49 +27,30 @@ var reporteass = {
       });
     }
   },
-
-  listarImpresoraID: async (req, res = response) => {
+  listarReporteId: async (req, res = response) => {
     try {
-      const { id, serial } = req.params;
-
-      // Buscamos el registro por ID y serial
-      const verificarPro = await impresorasss.findOne({ id, serial });
-
-      if (!verificarPro) {
-        return res.status(404).json({ msg: 'Registro no encontrado' });
+      // Obtén los parámetros de filtro de la solicitud
+      const { id, numero_caso } = req.query;
+  
+      // Construye la consulta dinámica
+      const query = { estado: true };
+      if (id) {
+        query._id = id;
       }
-
+      if (numero_caso) {
+        query.numero_caso = numero_caso;
+      }
+  
+      // Obtiene los registros que coinciden con la consulta
+      const mostrarReportes = await equipos.find(query);
+  
+      // Envía los registros como respuesta en formato JSON
       res.status(200).json({
-        msg: 'Impresora por ID y Serial Exitoso',
-        verificarPro,
+        msg: 'Listado Exitoso',
+        mostrarReportes,
       });
     } catch (error) {
       console.error('Error en la operación:', error);
-
-      res.status(500).json({
-        error: 'Hubo un error en la operación',
-      });
-    }
-  }
-  ,
-  listarImpresoraIP: async (req, res = response) => {
-    try {
-      const { id, ip } = req.params;
-
-      // Buscamos el registro por ID y serial
-      const verificarPro = await impresorasss.findOne({ id, ip });
-
-      if (!verificarPro) {
-        return res.status(404).json({ msg: 'Registro no encontrado' });
-      }
-
-      res.status(200).json({
-        msg: 'Impresora por ID y ip Exitoso',
-        verificarPro,
-      });
-    } catch (error) {
-      console.error('Error en la operación:', error);
-
       res.status(500).json({
         error: 'Hubo un error en la operación',
       });
