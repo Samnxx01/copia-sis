@@ -19,46 +19,37 @@ var archivosss = {
   ListarArchivo: async (req, res = response) => {
     const { id, coleccion } = req.params;
     let subidaImg;
-
+  
     switch (coleccion) {
-      case 'registUros':
-        subidaImg = await registUrosImg.findById(id);
-        if (!subidaImg) {
-          return res.status(400).json({ msg: `No existe el usuario con el id ${id}` });
-        }
-        break;
-
-      case 'compus':
-        subidaImg = await computadoresImg.findById(id);
-        if (!subidaImg) {
-          return res.status(400).json({ msg: `No existe el computador con el id ${id}` });
-        }
-        break;
-
-      case 'reportes':
-        subidaImg = await reportesImg.findById(id);
-        if (!subidaImg) {
-          return res.status(400).json({ msg: `No existe el reporte con el id ${id}` });
-        }
-        break;
-
-      default:
-        return res.status(500).json({ msg: 'Se me olvidó validar esto' });
+        case 'registUros':
+            subidaImg = await registUrosImg.findById(id);
+            if (!subidaImg) {
+                return res.status(400).json({ msg: `No existe el usuario con el id ${id}` });
+            }
+            break;
+  
+        case 'compus':
+            subidaImg = await computadoresImg.findById(id);
+            if (!subidaImg) {
+                return res.status(400).json({ msg: `No existe el computador con el id ${id}` });
+            }
+            break;
+  
+        default:
+            return res.status(500).json({ msg: 'Se me olvidó validar esto' });
     }
-
-    
-
-
-    //limpiar archivos subidos
+  
+    // Construir la ruta del archivo
     if (subidaImg.img) {
-      const pathImagen = path.join(__dirname, '../db-uros', coleccion, subidaImg.img)
-      if (fs.existsSync(pathImagen)) {
-        return res.sendFile(pathImagen)
-      }
-      res.json({ msg: 'falta la imagen' })
+        const pathImagen = path.join(__dirname, '../db-uros', 'compus', subidaImg.img);
+        if (fs.existsSync(pathImagen)) {
+            return res.sendFile(pathImagen);
+        } else {
+            return res.sendFile(path.join(__dirname, '../assets/no-image.jpg'));
+        }
     }
-    const pathImagen = path.join(__dirname, '../assets/no-image.jpg')
-    res.sendFile(pathImagen)
+  
+    return res.sendFile(path.join(__dirname, '../assets/no-image.jpg'));
   },
 
   listar: async (req, res = response) => {

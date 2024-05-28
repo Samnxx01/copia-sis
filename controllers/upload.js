@@ -16,8 +16,8 @@ const __dirname = dirname(__filename);
 var imgsubido = {
   
   listarImg: async (req, res = response) => {
-      
     const {id, coleccion} = req.params
+    
     let actualizacion
 
     switch (coleccion) {

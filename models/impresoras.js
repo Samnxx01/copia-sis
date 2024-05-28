@@ -11,7 +11,6 @@ const ImpresorasSchema = new Schema({
         pisos: {
             type: String,
             required: [true, 'El piso es obligatorio'],
-            unique: true
         },
         ip: {
             type: String, // Cambiar el tipo de dato a Number

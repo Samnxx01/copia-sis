@@ -51,21 +51,21 @@ router.post('/registro/coordinador', [
     validarCampos
 ], RegisController.guardarCoordinador)
 
-    //ruta para imagenes
-    router.post('/subirarchivosDB', subir.cargarArchivoDB)
-    router.get('/img/:coleccion/:id', [
-        check('id', 'El id debe ser mongo').isMongoId(),
-        check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes','ArchivosSubidos'])),
-        validarCampos
-    ], subir.ListarArchivo)
+//ruta para imagenes
+router.post('/subirarchivosDB', subir.cargarArchivoDB)
+router.get('/img/:coleccion/:id', [
+    check('id', 'El id debe ser mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c, ['registUros', 'compus', 'reportes', 'ArchivosSubidos'])),
+    validarCampos
+], subir.ListarArchivo)
 
 
-    router.put('/:coleccion/:id',[
-        validarArchivosSubirUros,
-        check('id', 'El id debe ser mongo').isMongoId(),
-        check('coleccion').custom(c => coleccionesPermitidas(c,['registUros', 'compus','reportes'])),
-        validarCampos
-    ], subir.actualizarImg)
+router.put('img/:coleccion/:id', [
+    validarArchivosSubirUros,
+    check('id', 'El id debe ser mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c, ['registUros', 'compus', 'reportes'])),
+    validarCampos
+], subir.actualizarImg)
 
 //Rutas de login
 router.post('/login/tecnico', [
@@ -105,10 +105,6 @@ router.get('/compu/listarID/:serial', [
 
 ], CompuController.listarComputadoresID)
 
-
-router.get('/compu/listarIP/:ip', [
-
-], CompuController.listarComputadoresIP)
 
 //api api de computadores
 
@@ -251,7 +247,7 @@ router.post('/guardarReportes', [
     check('diagnostico', ' El tipo de parte es obligatorio').not().isEmpty(),
     check('coordinador_area', 'La firma es obligatorio').not().isEmpty(),
     check('activos_fijos', 'La firma es obligatorio').not().isEmpty(),
-    
+
 
     //check('nombre', ).custom(nombreExisteProduc),
     validarCampos
@@ -265,8 +261,9 @@ router.get('/listar', [
 
 router.put('/modificarImpresoras/:id', [
 
-    //check('categoria', 'no es un id mongo').isMongoId(),
+
 ], ImpresoraController.modificarImpresora);
+
 
 router.delete('/eliminarImpresoras/:id', [
 

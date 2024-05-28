@@ -30,35 +30,22 @@ var computa = {
   },
 
 
-  listarComputadoresID: async (req, res = response) => {
+
+  
+   listarComputadoresID: async (req, res = response) => {
     try {
-      // Obtener parámetros de consulta
-      const { fecha, serial, area, mac, ip, marca, ubicacion, cedula, placa, sede } = req.query;
-
-      // Crear objeto de filtros basado en los parámetros de consulta
-      const filtros = {};
-
-      if (fecha) filtros.fecha = fecha;
-      if (serial) filtros.serial = serial;
-      if (mac) filtros.mac = mac;
-      if (area) filtros.area = area;
-      if (ip) filtros.ip = ip;
-      if (placa) filtros.placa = placa;
-      if (marca) filtros.marca = marca;
-      if (ubicacion) filtros.ubicacion = ubicacion;
-      if (cedula) filtros.cedula = cedula;
-      if (sede) filtros.sede = sede;
-
-      // Buscar registros en la base de datos que coincidan con los filtros
-      const compuVeri = await computadores.findOne(filtros);
-
-
+      // Obtener parámetros de ruta
+      const {  serial } = req.params;
+  
+      // Buscar registro en la base de datos por el campo id y serial
+      const compuVeri = await computadores.findOne({  serial });
+  
       if (!compuVeri) {
         return res.status(404).json({ msg: 'Registro no encontrado' });
       }
-
+  
       res.status(200).json({
-        msg: 'Impresora por ID y otros parámetros exitoso',
+        msg: 'Búsqueda por serial exitosa',
         compuVeri,
       });
     } catch (error) {
@@ -68,7 +55,10 @@ var computa = {
       });
     }
   },
-  listarComputadoresIP: async (req, res = response) => {
+
+
+  
+/*  listarComputadoresIP: async (req, res = response) => {
     try {
       const { id, ip } = req.params;
 
@@ -90,7 +80,7 @@ var computa = {
         error: 'Hubo un error en la operación',
       });
     }
-  },
+  },*/
 
 
 
@@ -126,7 +116,7 @@ var computa = {
     }
   
     try {
-      const archivoSubido = await subirArchivos(req.files, undefined, 'prueba');
+      const archivoSubido = await subirArchivos(req.files, undefined, 'compus');
       data.img = archivoSubido; // Añadir el nombre del archivo subido a la data
   
       const nuevoComputador = new computadores(data);
