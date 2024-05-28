@@ -91,12 +91,17 @@ router.post('/login/tecnico', [
 
 //api de impresoras de listarID
 
-router.get('/listarID/:serial', [
+router.get('/impres/listarID/:serial', [
 
 ], ImpresoraController.listarImpresoraID)
 
 
-router.get('/listarIP/:ip', [
+router.get('/prueba/listarID/:serial/:ip', [
+
+], ImpresoraController.listarImpresoraIDPrueba)
+
+
+router.get('/listarIP/:ip/:serial', [
 
 ], ImpresoraController.listarImpresoraIP)
 

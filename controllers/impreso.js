@@ -31,29 +31,50 @@ var impresor = {
 
   listarImpresoraID: async (req, res = response) => {
     try {
-      const { id, serial, ip, sedes, mac, pisos, ubicacion } = req.query; // Usar req.query para obtener los parámetros de la consulta
+      // Obtener parámetros de ruta
+      const {  serial } = req.params;
   
-      // Construir el filtro para la búsqueda
-      const filtro = {};
+      // Buscar registro en la base de datos por el campo id y serial
+      const compuVeri = await impresorasss.findOne({  serial });
   
-      if (id) filtro._id = id;
-      if (serial) filtro.serial = serial;
-      if (ip) filtro.ip = ip;
-      if (sedes) filtro.sedes = sedes;
-      if (mac) filtro.mac = mac;
-      if (pisos) filtro.pisos = pisos;
-      if (ubicacion) filtro.pisos = pisos;
-  
-      // Buscar el registro que coincida con el filtro
-      const verificarPro = await impresorasss.findOne(filtro);
-  
-      if (!verificarPro) {
+      if (!compuVeri) {
         return res.status(404).json({ msg: 'Registro no encontrado' });
       }
   
       res.status(200).json({
-        msg: 'Impresora por ID y otros parámetros exitoso',
-        verificarPro,
+        msg: 'Búsqueda por serial exitosa',
+        compuVeri,
+      });
+    } catch (error) {
+      console.error('Error en la operación:', error);
+      res.status(500).json({
+        error: 'Hubo un error en la operación',
+      });
+    }
+  },
+
+  listarImpresoraIDPrueba: async (req, res = response) => {
+    try {
+      // Obtener parámetros de ruta
+      const { serial , ip } = req.params;
+      console.log(serial, ip)
+      // Construir el objeto de consulta
+      const consulta = {};
+
+      if (serial) consulta.serial = serial;
+      if (ip) consulta.ip = ip;
+      
+  
+      // Buscar registros en la base de datos que coincidan con los parámetros proporcionados
+      const impresora = await impresorasss.find(consulta);
+  
+      if (!impresora || impresora.length === 0) {
+        return res.status(404).json({ msg: 'No se encontraron registros que coincidan con los parámetros proporcionados' });
+      }
+  
+      res.status(200).json({
+        msg: 'Búsqueda exitosa',
+        impresora,
       });
     } catch (error) {
       console.error('Error en la operación:', error);
