@@ -263,6 +263,11 @@ router.get('/listar', [
 ], reportesController.listarReporte)
 
 
+router.get('/listar/:id', [
+
+], reportesController.listarReporteId)
+
+
 
 router.put('/modificarImpresoras/:id', [
 
