@@ -258,7 +258,7 @@ router.post('/guardarReportes', [
     validarCampos
 ], reportesController.guadarReportes)
 
-router.get('/listar', [
+router.get('/reportes/listar', [
 
 ], reportesController.listarReporte)
 
