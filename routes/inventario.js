@@ -95,10 +95,15 @@ router.get('/impres/listarID/:serial', [
 
 ], ImpresoraController.listarImpresoraID)
 
+router.get('/ip/listarID/:ip', [
 
-router.get('/prueba/listarID/:serial/:ip', [
+], ImpresoraController.listarImpresoraIp)
+router.get('/mac/listarID/:mac', [
 
-], ImpresoraController.listarImpresoraIDPrueba)
+], ImpresoraController.listarImpresoraMac)
+router.get('/time/listarID/:sedes', [
+
+], ImpresoraController.listarImpresoraFecha)
 
 
 router.get('/listarIP/:ip/:serial', [

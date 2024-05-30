@@ -52,29 +52,21 @@ var impresor = {
       });
     }
   },
-
-  listarImpresoraIDPrueba: async (req, res = response) => {
+  listarImpresoraMac: async (req, res = response) => {
     try {
       // Obtener parámetros de ruta
-      const { serial , ip } = req.params;
-      console.log(serial, ip)
-      // Construir el objeto de consulta
-      const consulta = {};
-
-      if (serial) consulta.serial = serial;
-      if (ip) consulta.ip = ip;
-      
+      const {  mac } = req.params;
   
-      // Buscar registros en la base de datos que coincidan con los parámetros proporcionados
-      const impresora = await impresorasss.find(consulta);
+      // Buscar registro en la base de datos por el campo id y serial
+      const compuVeri = await impresorasss.findOne({  mac });
   
-      if (!impresora || impresora.length === 0) {
-        return res.status(404).json({ msg: 'No se encontraron registros que coincidan con los parámetros proporcionados' });
+      if (!compuVeri) {
+        return res.status(404).json({ msg: 'Registro no encontrado' });
       }
   
       res.status(200).json({
-        msg: 'Búsqueda exitosa',
-        impresora,
+        msg: 'Búsqueda por mac  exitosa',
+        compuVeri,
       });
     } catch (error) {
       console.error('Error en la operación:', error);
@@ -83,7 +75,82 @@ var impresor = {
       });
     }
   },
+  listarImpresoraIp: async (req, res = response) => {
+    try {
+      // Obtener parámetros de ruta
+      const {  ip } = req.params;
   
+      // Buscar registro en la base de datos por el campo id y serial
+      const compuVeri = await impresorasss.findOne({  ip });
+  
+      if (!compuVeri) {
+        return res.status(404).json({ msg: 'Registro no encontrado' });
+      }
+  
+      res.status(200).json({
+        msg: 'Búsqueda por ip exitosa',
+        compuVeri,
+      });
+    } catch (error) {
+      console.error('Error en la operación:', error);
+      res.status(500).json({
+        error: 'Hubo un error en la operación',
+      });
+    }
+  },
+  listarImpresoraFecha: async (req, res = response) => {
+    try {
+      // Obtener parámetros de ruta
+      const { sedes } = req.params;
+  
+      // Buscar registro en la base de datos por el campo id y serial
+      const compuVeri = await impresorasss.findOne({ sedes });
+  
+      if (!compuVeri) {
+        return res.status(404).json({ msg: 'Registro no encontrado' });
+      }
+  
+      res.status(200).json({
+        msg: 'Búsqueda por fecha exitosa',
+        compuVeri,
+      });
+    } catch (error) {
+      console.error('Error en la operación:', error);
+      res.status(500).json({
+        error: 'Hubo un error en la operación',
+      });
+    }
+  },
+
+  listarImpresoraIDPrueba: async (req, res = response) => {
+    try {
+      // Obtener el parámetro de ruta serial
+      const { serial, ip, mac } = req.params;
+
+      // Construye un objeto de consulta con todas las propiedades
+      const query = {
+        
+        serial: serial,
+        ip: ip,
+        mac: mac // Propiedad serial
+  
+        // ...
+      };
+
+      // Realiza la consulta utilizando todas las propiedades
+      const impresora = await impresorasss.findOne(query);
+
+      if (!impresora) {
+        return res.status(404).json({ msg: 'Impresora no encontrada' });
+      }
+
+      res.status(200).json({ impresora });
+    } catch (error) {
+      console.error('Error en la operación:', error);
+      res.status(500).json({ error: 'Hubo un error en la operación' });
+    }
+  },
+
   listarImpresoraIP: async (req, res = response) => {
     try {
       const { id, ip } = req.params;
